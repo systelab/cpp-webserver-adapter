@@ -1,9 +1,3 @@
-#include "stdafx.h"
-#include "Request.h"
-
-#include <sstream>
-#include <regex>
-
 
 namespace systelab { namespace web_server {
 
@@ -85,28 +79,14 @@ namespace systelab { namespace web_server {
 		m_content = content;
 	}
 
-	bool Request::hasHeader(const std::string& name) const
+	RequestHeaders& Request::getHeaders()
 	{
-		return (m_headers.find(name) != m_headers.end());
+		return m_headers;
 	}
 
-	std::string Request::getHeader(const std::string& name) const
+	const RequestHeaders& Request::getHeaders() const
 	{
-		auto it = m_headers.find(name);
-		if (m_headers.find(name) != m_headers.end())
-		{
-			return it->second;
-		}
-		else
-		{
-			std::string exc = std::string("Header '") + name + std::string("' not found.");
-			throw std::exception(exc.c_str());
-		}
-	}
-
-	void Request::addHeader(const std::string& name, const std::string& value)
-	{
-		m_headers.insert(std::make_pair(name, value));
+		return m_headers;
 	}
 
 	RequestQueryStrings& Request::getQueryStrings()
@@ -117,6 +97,30 @@ namespace systelab { namespace web_server {
 	const RequestQueryStrings& Request::getQueryStrings() const
 	{
 		return m_queryStrings;
+	}
+
+	std::unique_ptr<systelab::web_server::Request> Request::translateRequestToSystelabWebServer(const http::server::Request& request)
+	{
+		auto translatedRequest = std::make_unique<systelab::web_server::Request>();
+		translatedRequest->setURI(request.uri);
+		translatedRequest->setMethod(request.method);
+		translatedRequest->setContent(request.content);
+		translatedRequest->setHttpVersionMajor(request.http_version_major);
+		translatedRequest->setHttpVersionMinor(request.http_version_minor);
+
+		auto& translatedQueryStrings = translatedRequest->getQueryStrings();
+		for (const auto& queryString : request.m_queryStrings)
+		{
+			translatedQueryStrings.addItem(queryString.first, queryString.second);
+		}
+
+		auto& translatedHeaders = translatedRequest->getHeaders();
+		for (const auto& header : request.headers)
+		{
+			translatedHeaders.addHeader(header.first, header.second);
+		}
+
+		return translatedRequest;
 	}
 
 }}

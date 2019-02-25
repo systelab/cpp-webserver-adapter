@@ -1,6 +1,3 @@
-#include "stdafx.h"
-#include "RequestQueryStrings.h"
-
 
 namespace systelab { namespace web_server {
 
@@ -35,6 +32,11 @@ namespace systelab { namespace web_server {
 			std::string exc = std::string("Query string item '") + name + std::string("' not found.");
 			throw std::exception(exc.c_str());
 		}
+	}
+
+	std::map<std::string, std::string> RequestQueryStrings::getItemsMap() const
+	{
+		return m_items;
 	}
 
 	void RequestQueryStrings::addItem(const std::string& name, const std::string& value)

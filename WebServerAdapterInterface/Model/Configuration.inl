@@ -1,6 +1,3 @@
-#include "StdAfx.h"
-#include "Configuration.h"
-
 #include "CORSConfiguration.h"
 
 
