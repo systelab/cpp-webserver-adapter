@@ -5,5 +5,8 @@
 #include <gmock/gmock.h>
 
 // STL
-#include <ostream>
 #include <istream>
+#include <ostream>
+#include <map>
+#include <string>
+#include <vector>
