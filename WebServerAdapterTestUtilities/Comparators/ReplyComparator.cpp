@@ -1,16 +1,15 @@
 #include "stdafx.h"
-#include "EntityComparator.h"
+#include "WebServerAdapterInterface/Model/Reply.h"
 
-#include "Webserver/Reply.h"
+#include "TestUtilitiesInterface/EntityComparator.h"
 
-using testing::AssertionResult;
-using testing::AssertionFailure;
-using testing::AssertionSuccess;
 
-namespace http { namespace server { namespace test_utility {
+using namespace testing;
+
+namespace systelab { namespace test_utility {
 
 	template <>
-	testing::AssertionResult EntityComparator::operator() (const http::server::Reply& expected, const http::server::Reply& actual) const
+	testing::AssertionResult EntityComparator::operator() (const systelab::web_server::Reply& expected, const systelab::web_server::Reply& actual) const
 	{
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getContent());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getStatus());
@@ -40,4 +39,4 @@ namespace http { namespace server { namespace test_utility {
 		return AssertionSuccess();
 	}
 
-}}}
+}}

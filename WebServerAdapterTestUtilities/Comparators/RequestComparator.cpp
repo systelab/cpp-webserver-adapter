@@ -1,27 +1,24 @@
 #include "stdafx.h"
-#include "EntityComparator.h"
+#include "WebServerAdapterInterface/Model/Request.h"
 
-#include "Webserver/Request.h"
+#include "TestUtilitiesInterface/EntityComparator.h"
 
-using testing::AssertionResult;
-using testing::AssertionFailure;
-using testing::AssertionSuccess;
 
-namespace http { namespace server { namespace test_utility {
+using namespace testing;
+
+namespace systelab { namespace test_utility {
 
 	template <>
-	testing::AssertionResult EntityComparator::operator() (const http::server::Request& expected, const http::server::Request& actual) const
+	testing::AssertionResult EntityComparator::operator() (const systelab::web_server::Request& expected, const systelab::web_server::Request& actual) const
 	{
-		COMPARATOR_ASSERT_EQUAL(expected, actual, method);
-		COMPARATOR_ASSERT_EQUAL(expected, actual, uri);
-		COMPARATOR_ASSERT_EQUAL(expected, actual, http_version_major);
-		COMPARATOR_ASSERT_EQUAL(expected, actual, http_version_minor);
-		COMPARATOR_ASSERT_EQUAL(expected, actual, contentLength);
-		COMPARATOR_ASSERT_EQUAL(expected, actual, content);
-		COMPARATOR_ASSERT_EQUAL(expected, actual, bad);
+		COMPARATOR_ASSERT_EQUAL(expected, actual, getMethod());
+		COMPARATOR_ASSERT_EQUAL(expected, actual, getURI());
+		COMPARATOR_ASSERT_EQUAL(expected, actual, getHttpVersionMajor());
+		COMPARATOR_ASSERT_EQUAL(expected, actual, getHttpVersionMinor());
+		COMPARATOR_ASSERT_EQUAL(expected, actual, getContent());
 
-		std::map<std::string, std::string> expectedHeaders = expected.headers;
-		std::map<std::string, std::string> actualHeaders = actual.headers;
+		auto expectedHeaders = expected.getHeaders().getHeadersMap();
+		auto actualHeaders = actual.getHeaders().getHeadersMap();
 
 		COMPARATOR_ASSERT_EQUAL(expectedHeaders, actualHeaders, size() );
 		for (auto it = expectedHeaders.begin(); it != expectedHeaders.end(); it++)
@@ -44,4 +41,4 @@ namespace http { namespace server { namespace test_utility {
 		return AssertionSuccess();
 	}
 
-}}}
+}}
