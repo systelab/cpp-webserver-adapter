@@ -2,9 +2,6 @@
 
 #include <string>
 #include <vector>
-#include <boost/asio.hpp>
-
-#include "Webserver/Reply.h"
 
 
 namespace systelab { namespace web_server {
@@ -36,8 +33,8 @@ namespace systelab { namespace web_server {
 
 		inline Reply();
 		inline Reply(StatusType status,
-			  const std::map<std::string, std::string>& headers,
-			  const std::string& content);
+					 const std::map<std::string, std::string>& headers,
+					 const std::string& content);
 		inline virtual ~Reply();
 
 		inline StatusType getStatus() const;
@@ -49,9 +46,6 @@ namespace systelab { namespace web_server {
 		inline void setStatus(StatusType);
 		inline void addHeader(const std::string& header, const std::string& value);
 		inline void setContent(const std::string&);
-		
-		static inline std::unique_ptr<http::server::Reply> translateReplyToHttpServer(std::unique_ptr<systelab::web_server::Reply>);
-		static inline std::unique_ptr<systelab::web_server::Reply> translateReplyToSystelabWebServer(std::unique_ptr<http::server::Reply>);
 
 	protected:
 		StatusType m_status;

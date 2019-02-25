@@ -99,28 +99,5 @@ namespace systelab { namespace web_server {
 		return m_queryStrings;
 	}
 
-	std::unique_ptr<systelab::web_server::Request> Request::translateRequestToSystelabWebServer(const http::server::Request& request)
-	{
-		auto translatedRequest = std::make_unique<systelab::web_server::Request>();
-		translatedRequest->setURI(request.uri);
-		translatedRequest->setMethod(request.method);
-		translatedRequest->setContent(request.content);
-		translatedRequest->setHttpVersionMajor(request.http_version_major);
-		translatedRequest->setHttpVersionMinor(request.http_version_minor);
-
-		auto& translatedQueryStrings = translatedRequest->getQueryStrings();
-		for (const auto& queryString : request.m_queryStrings)
-		{
-			translatedQueryStrings.addItem(queryString.first, queryString.second);
-		}
-
-		auto& translatedHeaders = translatedRequest->getHeaders();
-		for (const auto& header : request.headers)
-		{
-			translatedHeaders.addHeader(header.first, header.second);
-		}
-
-		return translatedRequest;
-	}
-
 }}
+
