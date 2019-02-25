@@ -17,9 +17,7 @@ namespace systelab { namespace web_server {
 	{
 	}
 
-	Reply::~Reply()
-	{
-	}
+	Reply::~Reply() = default;
 
 	Reply::StatusType Reply::getStatus() const
 	{
@@ -68,30 +66,6 @@ namespace systelab { namespace web_server {
 	void Reply::setContent(const std::string& content)
 	{
 		m_content = content;
-	}
-
-	std::unique_ptr<http::server::Reply> Reply::translateReplyToHttpServer(std::unique_ptr<systelab::web_server::Reply> reply)
-	{
-		auto translatedReply = std::make_unique<http::server::Reply>();
-		translatedReply->m_status = (http::server::Reply::StatusType) reply->getStatus();
-		translatedReply->m_content = reply->getContent();
-
-		auto headers = reply->getHeaders();
-		for (auto header : headers)
-		{
-			translatedReply->setHeader(header.first, header.second);
-		}
-
-		return translatedReply;
-	}
-
-	std::unique_ptr<systelab::web_server::Reply> Reply::translateReplyToSystelabWebServer(std::unique_ptr<http::server::Reply> reply)
-	{
-		systelab::web_server::Reply::StatusType status = static_cast<systelab::web_server::Reply::StatusType>((unsigned int)reply->getStatus());
-		std::map<std::string, std::string> headers = reply->getHeaders();
-		const std::string content = reply->getContent();
-		
-		return std::make_unique<systelab::web_server::Reply>(status, headers, content);
 	}
 
 }}

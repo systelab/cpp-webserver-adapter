@@ -2,15 +2,7 @@
 
 #include "RequestHeaders.h"
 #include "RequestQueryStrings.h"
-#include "Webserver/Request.h"
-#include <string>
-#include <vector>
-#include <map>
-#include <boost/optional.hpp>
-#include <sstream>
-#include <regex>
 
-#include "Webserver/Request.h"
 
 namespace systelab { namespace web_server {
 
@@ -19,12 +11,12 @@ namespace systelab { namespace web_server {
 	public:
 		inline Request();
 		inline Request(const std::string& method,
-				const std::string& uri,
-				const std::map<std::string, std::string>& queryStrings,
-				unsigned int httpVersionMajor,
-				unsigned int httpVersionMinor,
-				const std::map<std::string, std::string>& headers,
-				const std::string& content);
+					   const std::string& uri,
+					   const std::map<std::string, std::string>& queryStrings,
+					   unsigned int httpVersionMajor,
+					   unsigned int httpVersionMinor,
+					   const std::map<std::string, std::string>& headers,
+					   const std::string& content);
 
 		inline std::string getMethod() const;
 		inline std::string getURI() const;
@@ -43,7 +35,6 @@ namespace systelab { namespace web_server {
 
 		inline RequestQueryStrings& getQueryStrings();
 		inline const RequestQueryStrings& getQueryStrings() const;
-		static inline std::unique_ptr<systelab::web_server::Request> translateRequestToSystelabWebServer(const http::server::Request& request);
 
 	private:
 		std::string m_method;
