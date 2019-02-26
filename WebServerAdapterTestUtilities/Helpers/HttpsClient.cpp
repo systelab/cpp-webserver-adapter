@@ -1,210 +1,169 @@
 #include "stdafx.h"
-
-#include "HTTPSyncClient.h"
-#include "SecurityUtils\Controllers\JWTController.h"
-#include "SecurityUtils\EncryptionAPI.h"
+#include "HttpsClient.h"
 
 #include <sstream>
 #include <boost/bind.hpp>
 
-namespace http { namespace server { namespace test_utility {
 
 using boost::asio::ip::tcp;
 
-HTTPSyncClient::HTTPSyncClient(SecuredServer::Credentials& serverCredentials, SecuredServer::Credentials& clientCredentials, 
-	const std::string& server, const std::string& port)
-	: m_server(server)
-	, m_port(port)
-	, m_io_service()
-	, context_(boost::asio::ssl::context::sslv23)
-{
-	context_.set_options(
-		boost::asio::ssl::context::default_workarounds
-		| boost::asio::ssl::context::no_sslv2
-		| boost::asio::ssl::context::no_sslv3
-		| boost::asio::ssl::context::no_tlsv1);
+namespace systelab { namespace web_server { namespace test_utility {
 
-	setServerCertificate(serverCredentials.certificate);  //"server/cert.crt")
-	setClientCertificate(clientCredentials.certificate); //"client/cert.crt");
-	setClientPrivateKey(clientCredentials.privateKey);// "client/key.pem");
-
-	m_socket.reset(new boost::asio::ssl::stream<boost::asio::ip::tcp::socket>(m_io_service, context_));
-}
-
-HTTPSyncClient::~HTTPSyncClient()
-{
-
-}
-
-bool HTTPSyncClient::setServerCertificate(const std::string& certificate)
-{
-	context_.set_verify_mode(boost::asio::ssl::context::verify_peer | boost::asio::ssl::context::verify_fail_if_no_peer_cert); // | boost::asio::ssl::context::verify_client_once
-
-	BIO *cert_mem = BIO_new(BIO_s_mem());
-	BIO_puts(cert_mem, certificate.c_str());
-
-	STACK_OF(X509_INFO) *inf = PEM_X509_INFO_read_bio(cert_mem, NULL, NULL, NULL);
-	BIO_free(cert_mem);
-
-	unsigned int count = 0;
-
-	if (inf)
+	HttpsClient::HttpsClient(SecuredServerCredentials& serverCredentials,
+							 const std::string& server,
+							 const std::string& port)
+		:m_server(server)
+		,m_port(port)
+		,m_io_service()
+		,context_(boost::asio::ssl::context::sslv23)
 	{
-		//X509_LOOKUP *lookup = X509_STORE_add_lookup(context_.native_handle()->cert_store, X509_LOOKUP_file());
+		context_.set_options(
+			boost::asio::ssl::context::default_workarounds
+			| boost::asio::ssl::context::no_sslv2
+			| boost::asio::ssl::context::no_sslv3
+			| boost::asio::ssl::context::no_tlsv1);
 
-		for (int i = 0; i < sk_X509_INFO_num(inf); i++)
-		{
-			X509_INFO *itmp = sk_X509_INFO_value(inf, i);
+		setServerCertificate(serverCredentials.certificate);  //"server/cert.crt")
+		setClientCertificate(clientCredentials.certificate); //"client/cert.crt");
+		setClientPrivateKey(clientCredentials.privateKey);// "client/key.pem");
 
-			if (itmp->x509)
-			{
-				X509_STORE_add_cert(context_.native_handle()->cert_store, itmp->x509);
-				count++;
-			}
-
-			if (itmp->crl)
-			{
-				X509_STORE_add_crl(context_.native_handle()->cert_store, itmp->crl);
-				count++;
-			}
-		}
-
-		sk_X509_INFO_pop_free(inf, X509_INFO_free);
+		m_socket.reset(new boost::asio::ssl::stream<boost::asio::ip::tcp::socket>(m_io_service, context_));
 	}
 
-	return count > 0;
-}
+	HttpsClient::~HttpsClient() = default;
 
-bool HTTPSyncClient::setClientCertificate(const std::string& certificate)
-{
-	bool result = false;
-
-	BIO *bio_mem = BIO_new(BIO_s_mem());
-	BIO_puts(bio_mem, certificate.c_str());
-	X509 * x509 = PEM_read_bio_X509(bio_mem, NULL, NULL, NULL);
-
-	result = SSL_CTX_use_certificate(context_.native_handle(), x509) == 1;
-
-	BIO_free(bio_mem);
-	X509_free(x509);
-
-	return result;
-}
-
-bool HTTPSyncClient::setClientPrivateKey(const std::string& privateKey)
-{
-	bool result = false;
-
-	BIO *key_mem = BIO_new(BIO_s_mem());
-	BIO_puts(key_mem, privateKey.c_str());
-
-	EVP_PKEY *pkey = PEM_read_bio_PrivateKey(key_mem, NULL,
-		context_.native_handle()->default_passwd_callback,
-		context_.native_handle()->default_passwd_callback_userdata);
-	if (pkey != NULL)
+	bool HttpsClient::setServerCertificate(const std::string& certificate)
 	{
-		result = SSL_CTX_use_PrivateKey(context_.native_handle(), pkey) == 1;
-		EVP_PKEY_free(pkey);
-	}
+		context_.set_verify_mode(boost::asio::ssl::context::verify_peer | boost::asio::ssl::context::verify_fail_if_no_peer_cert); // | boost::asio::ssl::context::verify_client_once
 
-	BIO_free(key_mem);
+		BIO *cert_mem = BIO_new(BIO_s_mem());
+		BIO_puts(cert_mem, certificate.c_str());
 
-	return result;
-}
+		STACK_OF(X509_INFO) *inf = PEM_X509_INFO_read_bio(cert_mem, NULL, NULL, NULL);
+		BIO_free(cert_mem);
 
-bool HTTPSyncClient::send(std::string path, std::map<std::string, std::string>& headers, std::string& content)
-{
-	tcp::resolver resolver(m_io_service);
-	tcp::resolver::query query(m_server, m_port);
-	tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
+		unsigned int count = 0;
 
-	boost::system::error_code error;
-	boost::asio::connect(m_socket->lowest_layer(), endpoint_iterator, error);
-
-	m_socket->handshake(boost::asio::ssl::stream_base::client, error);
-
-	boost::asio::streambuf request;
-	std::ostream request_stream(&request);
-	request_stream << "GET " << path << " HTTP/1.0\r\n";
-	request_stream << "Host: " << m_server << "\r\n";
-	request_stream << "Accept: */*\r\n";
-	request_stream << "Connection: close\r\n\r\n";
-
-
-	boost::asio::write(*(m_socket.get()), request);
-
-	bool result = receive(headers, content);
-
-	m_socket->shutdown(error);
-	m_socket->lowest_layer().close(error);
-	m_io_service.stop();
-
-	return result;
-}
-
-bool HTTPSyncClient::receive(std::map<std::string, std::string>& headers, std::string& content)
-{
-	boost::asio::streambuf response;
-	boost::asio::read_until(*(m_socket.get()), response, "\r\n");
-
-	std::istream response_stream(&response);
-	std::string http_version;
-	response_stream >> http_version;
-
-	unsigned int status_code;
-	response_stream >> status_code;
-	std::string status_message;
-	std::getline(response_stream, status_message);
-
-	if (!response_stream || "HTTP/" != http_version.substr(0, 5) || 200 != status_code)
-	{
-		return false;
-	}
-	else
-	{
-		// Read the response headers, which are terminated by a blank line.
-		boost::asio::read_until(*(m_socket.get()), response, "\r\n\r\n");
-
-		// Process the response headers.
-		std::string header;
-		while (std::getline(response_stream, header) && header != "\r")
+		if (inf)
 		{
-			std::pair<std::string, std::string> header_struct;
-			header_struct.first = header.substr(0, header.find(":"));
-			header_struct.second = header.substr(header.find(":") + 2, header.size());
+			//X509_LOOKUP *lookup = X509_STORE_add_lookup(context_.native_handle()->cert_store, X509_LOOKUP_file());
 
-			if (*header_struct.second.rbegin() == '\n')
+			for (int i = 0; i < sk_X509_INFO_num(inf); i++)
 			{
-				header_struct.second.pop_back();
+				X509_INFO *itmp = sk_X509_INFO_value(inf, i);
+
+				if (itmp->x509)
+				{
+					X509_STORE_add_cert(context_.native_handle()->cert_store, itmp->x509);
+					count++;
+				}
+
+				if (itmp->crl)
+				{
+					X509_STORE_add_crl(context_.native_handle()->cert_store, itmp->crl);
+					count++;
+				}
 			}
 
-			if (*header_struct.second.rbegin() == '\r')
-			{
-				header_struct.second.pop_back();
-			}
-
-			headers.insert(header_struct);
+			sk_X509_INFO_pop_free(inf, X509_INFO_free);
 		}
 
-		std::stringstream content_os;
+		return count > 0;
+	}
 
-		// Write whatever content we already have to output.
-		if (response.size() > 0)
-		{
-			content_os << &response;
-		}
+	bool HttpsClient::send(std::string path, std::map<std::string, std::string>& headers, std::string& content)
+	{
+		tcp::resolver resolver(m_io_service);
+		tcp::resolver::query query(m_server, m_port);
+		tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
 
-		// Read until EOF, writing data to output as we go.
 		boost::system::error_code error;
-		while (boost::asio::read(*(m_socket.get()), response, boost::asio::transfer_at_least(1), error))
-		{
-			content_os << &response;
-		}
+		boost::asio::connect(m_socket->lowest_layer(), endpoint_iterator, error);
 
-		content = content_os.str();
+		m_socket->handshake(boost::asio::ssl::stream_base::client, error);
 
-		return (boost::asio::error::eof == error);
+		boost::asio::streambuf request;
+		std::ostream request_stream(&request);
+		request_stream << "GET " << path << " HTTP/1.0\r\n";
+		request_stream << "Host: " << m_server << "\r\n";
+		request_stream << "Accept: */*\r\n";
+		request_stream << "Connection: close\r\n\r\n";
+
+
+		boost::asio::write(*(m_socket.get()), request);
+
+		bool result = receive(headers, content);
+
+		m_socket->shutdown(error);
+		m_socket->lowest_layer().close(error);
+		m_io_service.stop();
+
+		return result;
 	}
-}
+
+	bool HttpsClient::receive(std::map<std::string, std::string>& headers, std::string& content)
+	{
+		boost::asio::streambuf response;
+		boost::asio::read_until(*(m_socket.get()), response, "\r\n");
+
+		std::istream response_stream(&response);
+		std::string http_version;
+		response_stream >> http_version;
+
+		unsigned int status_code;
+		response_stream >> status_code;
+		std::string status_message;
+		std::getline(response_stream, status_message);
+
+		if (!response_stream || "HTTP/" != http_version.substr(0, 5) || 200 != status_code)
+		{
+			return false;
+		}
+		else
+		{
+			// Read the response headers, which are terminated by a blank line.
+			boost::asio::read_until(*(m_socket.get()), response, "\r\n\r\n");
+
+			// Process the response headers.
+			std::string header;
+			while (std::getline(response_stream, header) && header != "\r")
+			{
+				std::pair<std::string, std::string> header_struct;
+				header_struct.first = header.substr(0, header.find(":"));
+				header_struct.second = header.substr(header.find(":") + 2, header.size());
+
+				if (*header_struct.second.rbegin() == '\n')
+				{
+					header_struct.second.pop_back();
+				}
+
+				if (*header_struct.second.rbegin() == '\r')
+				{
+					header_struct.second.pop_back();
+				}
+
+				headers.insert(header_struct);
+			}
+
+			std::stringstream content_os;
+
+			// Write whatever content we already have to output.
+			if (response.size() > 0)
+			{
+				content_os << &response;
+			}
+
+			// Read until EOF, writing data to output as we go.
+			boost::system::error_code error;
+			while (boost::asio::read(*(m_socket.get()), response, boost::asio::transfer_at_least(1), error))
+			{
+				content_os << &response;
+			}
+
+			content = content_os.str();
+
+			return (boost::asio::error::eof == error);
+		}
+	}
 
 }}}
