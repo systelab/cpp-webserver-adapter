@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "StubService.h"
 
 #include "WebServerAdapterInterface/Model/Reply.h"
