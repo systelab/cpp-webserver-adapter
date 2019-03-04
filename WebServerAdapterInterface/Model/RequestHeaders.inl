@@ -11,9 +11,7 @@ namespace systelab { namespace web_server {
 	{
 	}
 
-	RequestHeaders::~RequestHeaders()
-	{
-	}
+	RequestHeaders::~RequestHeaders() = default;
 
 	bool RequestHeaders::hasHeader(const std::string& name) const
 	{
@@ -29,8 +27,7 @@ namespace systelab { namespace web_server {
 		}
 		else
 		{
-			std::string exc = std::string("Header '") + name + std::string("' not found.");
-			throw std::exception(exc.c_str());
+			throw std::runtime_error("Header '" + name + "' not found.");
 		}
 	}
 

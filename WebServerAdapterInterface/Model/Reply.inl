@@ -43,8 +43,7 @@ namespace systelab { namespace web_server {
 		}
 		else
 		{
-			std::string exc = std::string("Header '") + name + std::string("' not found.");
-			throw std::runtime_error(exc.c_str());
+			throw std::runtime_error("Header '" + name + "' not found.");
 		}
 	}
 
