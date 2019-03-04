@@ -27,7 +27,7 @@ namespace systelab { namespace web_server { namespace test_utility {
 		std::string m_server;
 		std::string m_port;
 		std::string m_root;
-		std::auto_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> m_socket;
+		std::unique_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> m_socket;
 		boost::asio::ssl::context context_;
 	};
 
