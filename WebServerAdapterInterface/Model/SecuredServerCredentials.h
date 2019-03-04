@@ -5,16 +5,16 @@ namespace systelab { namespace web_server {
 	class SecuredServerCredentials
 	{
 	public:
-		SecuredServerCredentials();
-		virtual ~SecuredServerCredentials();
+		inline SecuredServerCredentials();
+		inline virtual ~SecuredServerCredentials();
 
-		std::string getCertificate() const;
-		std::string getPrivateKey() const;
-		std::string getDHParam() const;
+		inline std::string getCertificate() const;
+		inline std::string getPrivateKey() const;
+		inline std::string getDHParam() const;
 
-		void setCertificate(const std::string&);
-		void setPrivateKey(const std::string&);
-		void setDHParam(const std::string&);
+		inline void setCertificate(const std::string&);
+		inline void setPrivateKey(const std::string&);
+		inline void setDHParam(const std::string&);
 
 	private:
 		std::string m_certificate;
