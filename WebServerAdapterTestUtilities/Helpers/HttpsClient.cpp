@@ -17,16 +17,12 @@ namespace systelab { namespace web_server { namespace test_utility {
 		,m_io_service()
 		,context_(boost::asio::ssl::context::sslv23)
 	{
-		context_.set_options(
-			boost::asio::ssl::context::default_workarounds
-			| boost::asio::ssl::context::no_sslv2
-			| boost::asio::ssl::context::no_sslv3
-			| boost::asio::ssl::context::no_tlsv1);
+		context_.set_options(boost::asio::ssl::context::default_workarounds |
+							 boost::asio::ssl::context::no_sslv2 |
+							 boost::asio::ssl::context::no_sslv3 |
+							 boost::asio::ssl::context::no_tlsv1);
 
-		setServerCertificate(serverCredentials.certificate);  //"server/cert.crt")
-		setClientCertificate(clientCredentials.certificate); //"client/cert.crt");
-		setClientPrivateKey(clientCredentials.privateKey);// "client/key.pem");
-
+		setServerCertificate(serverCredentials.getCertificate());
 		m_socket.reset(new boost::asio::ssl::stream<boost::asio::ip::tcp::socket>(m_io_service, context_));
 	}
 
