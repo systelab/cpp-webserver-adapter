@@ -1,0 +1,6 @@
+[requires]
+boost/1.67.0@conan/stable
+OpenSSL/1.0.2n@conan/stable
+
+[generators]
+cmake
