@@ -7,13 +7,13 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Setup up Google test
+include(ConfigureGoogleTest)
+configure_google_test()
+
 # Setup 3rd party libraries through conan
-include(Conan)
-conan_cmake_run(REQUIRES boost/1.67.0@conan/stable
-                         OpenSSL/1.0.2n@conan/stable
-                         gtest/1.8.1@bincrafters/stable
-                BASIC_SETUP
-                BUILD missing)
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()	
 
 # Setup extern repositories
 include(GitCloneRepository)
