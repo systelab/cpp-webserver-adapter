@@ -1,15 +1,15 @@
 #pragma once
 
-#include "WebServerAdapterInterface/IService.h"
+#include "WebServerAdapterInterface/IWebService.h"
 
 
 namespace systelab { namespace web_server { namespace test_utility {
 
-	class StubService : public IService
+	class StubWebService : public IWebService
 	{
 	public:
-		StubService(const Reply& defaultReply);
-		virtual ~StubService();
+		StubWebService(const Reply& defaultReply);
+		virtual ~StubWebService();
 
 		std::unique_ptr<Reply> build(const Request&) const;
 
