@@ -5,7 +5,7 @@
 namespace systelab { namespace web_server {
 
 	class CORSConfiguration;
-	class IService;
+	class IWebService;
 	class SecuredServerCredentials;
 
 	class ISecuredServer : public IServer

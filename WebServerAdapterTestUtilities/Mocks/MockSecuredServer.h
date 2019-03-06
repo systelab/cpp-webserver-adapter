@@ -2,7 +2,7 @@
 
 #include "WebServerAdapterInterface/ISecuredServer.h"
 
-#include "WebServerAdapterInterface/IService.h"
+#include "WebServerAdapterInterface/IWebService.h"
 #include "WebServerAdapterInterface/Model/Configuration.h"
 #include "WebServerAdapterInterface/Model/SecuredServerCredentials.h"
 
@@ -27,8 +27,8 @@ namespace systelab { namespace web_server { namespace test_utility {
 			setServerCredentialsProxy(credentials.release());
 		}
 
-		MOCK_METHOD1(registerWebServiceProxy, void(IService*));
-		void registerWebService(std::unique_ptr<IService> service)
+		MOCK_METHOD1(registerWebServiceProxy, void(IWebService*));
+		void registerWebService(std::unique_ptr<IWebService> service)
 		{
 			registerWebServiceProxy(service.release());
 		}

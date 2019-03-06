@@ -2,7 +2,7 @@
 
 #include "WebServerAdapterInterface/IServer.h"
 
-#include "WebServerAdapterInterface/IService.h"
+#include "WebServerAdapterInterface/IWebService.h"
 #include "WebServerAdapterInterface/Model/Configuration.h"
 
 
@@ -20,8 +20,8 @@ namespace systelab { namespace web_server { namespace test_utility {
 			setConfigurationProxy(configuration.release());
 		}
 
-		MOCK_METHOD1(registerWebServiceProxy, void(IService*));
-		void registerWebService(std::unique_ptr<IService> service)
+		MOCK_METHOD1(registerWebServiceProxy, void(IWebService*));
+		void registerWebService(std::unique_ptr<IWebService> service)
 		{
 			registerWebServiceProxy(service.release());
 		}
