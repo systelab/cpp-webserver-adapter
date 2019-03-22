@@ -18,6 +18,14 @@ namespace systelab { namespace web_server {
 		virtual bool isRunning() const = 0;
 		virtual void start() = 0;
 		virtual void stop() = 0;
+
+	public:
+		struct Exception : public std::runtime_error
+		{
+			Exception(const std::string& message)
+				:std::runtime_error(message.c_str())
+			{}
+		};
 	};
 
 }}
