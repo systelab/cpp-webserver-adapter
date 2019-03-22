@@ -14,7 +14,7 @@ namespace systelab { namespace web_server {
 		virtual ~ISecuredServer() = default;
 
 		virtual void setServerCredentials(std::unique_ptr<SecuredServerCredentials>) = 0;
-		virtual void setClientCredentials(std::unique_ptr<SecuredServerCredentials>) = 0;
+		virtual void setClientCredentials(const std::string&) = 0;
 	};
 
 }}
