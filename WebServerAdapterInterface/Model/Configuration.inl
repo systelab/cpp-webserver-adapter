@@ -1,4 +1,5 @@
 #include "CORSConfiguration.h"
+#include "SecurityConfiguration.h"
 
 
 namespace systelab { namespace web_server {
@@ -9,7 +10,8 @@ namespace systelab { namespace web_server {
 		:m_hostAddress(hostAddress)
 		,m_port(port)
 		,m_threadPoolSize(threadPoolSize)
-		,m_corsConfiguration(new CORSConfiguration())
+		,m_corsConfiguration(std::make_unique<CORSConfiguration>())
+		,m_securityConfiguration(std::make_unique<SecurityConfiguration>())
 	{
 	}
 
@@ -17,13 +19,12 @@ namespace systelab { namespace web_server {
 		:m_hostAddress(other.m_hostAddress)
 		,m_port(other.m_port)
 		,m_threadPoolSize(other.m_threadPoolSize)
-		,m_corsConfiguration(new CORSConfiguration(*other.m_corsConfiguration))
+		,m_corsConfiguration(std::make_unique<CORSConfiguration>(*other.m_corsConfiguration))
+		,m_securityConfiguration(std::make_unique<SecurityConfiguration>(*other.m_securityConfiguration))
 	{
 	}
 
-	Configuration::~Configuration()
-	{
-	}
+	Configuration::~Configuration() = default;
 
 	std::string Configuration::getHostAddress() const
 	{
@@ -50,12 +51,23 @@ namespace systelab { namespace web_server {
 		return *m_corsConfiguration;
 	}
 
+	const SecurityConfiguration& Configuration::getSecurityConfiguration() const
+	{
+		return *m_securityConfiguration;
+	}
+
+	SecurityConfiguration& Configuration::getSecurityConfiguration()
+	{
+		return *m_securityConfiguration;
+	}
+
 	Configuration& Configuration::operator= (const Configuration& other)
 	{
 		m_hostAddress = other.m_hostAddress;
 		m_port = other.m_port;
 		m_threadPoolSize = other.m_threadPoolSize;
 		*m_corsConfiguration = *other.m_corsConfiguration;
+		*m_securityConfiguration = *other.m_securityConfiguration;
 
 		return *this;
 	}

@@ -7,6 +7,7 @@
 namespace systelab { namespace web_server {
 
 	class CORSConfiguration;
+	class SecurityConfiguration;
 
 	class Configuration
 	{
@@ -24,6 +25,9 @@ namespace systelab { namespace web_server {
 		inline const CORSConfiguration& getCORSConfiguration() const;
 		inline CORSConfiguration& getCORSConfiguration();
 
+		inline const SecurityConfiguration& getSecurityConfiguration() const;
+		inline SecurityConfiguration& getSecurityConfiguration();
+
 		inline Configuration& operator= (const Configuration& other);
 
 	private:
@@ -31,6 +35,7 @@ namespace systelab { namespace web_server {
 		unsigned int m_port;
 		unsigned int m_threadPoolSize;
 		std::unique_ptr<CORSConfiguration> m_corsConfiguration;
+		std::unique_ptr<SecurityConfiguration> m_securityConfiguration;
 	};
 
 }}
