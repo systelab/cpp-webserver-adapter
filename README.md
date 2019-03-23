@@ -4,3 +4,38 @@
 
 # C++ Web Server Adapter
 
+This repository defines a library-agnostic API for C++ to work with a web server.
+
+## Supported features
+
+* HTTP server
+* HTTPS server
+* Mutual SSL
+* CORS configuration
+* Thread pool configuration
+
+## Available implementations
+
+* [BoostAsioWebServerAdapter](https://github.com/systelab/cpp-boostasio-webserver-adapter)
+
+## Usage
+
+### HTTP server
+
+`TBD`
+
+### HTTPS server
+
+`TBD`
+
+### Mutual SSL
+
+`TBD`
+
+### CORS configuration
+
+`TBD`
+
+### Thread pool configuration
+
+`TBD`
