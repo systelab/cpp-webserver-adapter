@@ -1,9 +1,7 @@
 #pragma once
 
 #include "WebServerAdapterInterface/IServer.h"
-
 #include "WebServerAdapterInterface/IWebService.h"
-#include "WebServerAdapterInterface/Model/Configuration.h"
 
 
 namespace systelab { namespace web_server { namespace test_utility {
@@ -13,12 +11,6 @@ namespace systelab { namespace web_server { namespace test_utility {
 	public:
 		MockServer();
 		virtual ~MockServer();
-
-		MOCK_METHOD1(setConfigurationProxy, void(Configuration*));
-		void setConfiguration(std::unique_ptr<Configuration> configuration)
-		{
-			setConfigurationProxy(configuration.release());
-		}
 
 		MOCK_METHOD1(registerWebServiceProxy, void(IWebService*));
 		void registerWebService(std::unique_ptr<IWebService> service)
