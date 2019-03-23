@@ -41,8 +41,7 @@ namespace systelab { namespace web_server {
 		inline unsigned int getMaxAge() const;
 		inline void setMaxAge(unsigned int);
 
-
-		inline CORSConfiguration& operator= (const CORSConfiguration& other);
+		inline CORSConfiguration& operator= (const CORSConfiguration&);
 
 	private:
 		bool m_enabled;
