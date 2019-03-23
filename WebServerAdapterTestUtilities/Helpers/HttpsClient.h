@@ -1,6 +1,6 @@
 #pragma once
 
-#include "WebServerAdapterInterface/Model/SecuredServerCredentials.h"
+#include "WebServerAdapterInterface/Model/SecurityConfiguration.h"
 
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
@@ -11,7 +11,7 @@ namespace systelab { namespace web_server { namespace test_utility {
 	class HttpsClient
 	{
 	public:
-		HttpsClient(SecuredServerCredentials&,
+		HttpsClient(SecurityConfiguration&,
 					const std::string& server,
 					const std::string& port);
 		virtual ~HttpsClient();

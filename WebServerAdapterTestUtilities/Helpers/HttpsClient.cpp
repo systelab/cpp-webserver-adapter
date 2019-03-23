@@ -9,7 +9,7 @@ using boost::asio::ip::tcp;
 
 namespace systelab { namespace web_server { namespace test_utility {
 
-	HttpsClient::HttpsClient(SecuredServerCredentials& serverCredentials,
+	HttpsClient::HttpsClient(SecurityConfiguration& securityConfiguration,
 							 const std::string& server,
 							 const std::string& port)
 		:m_server(server)
@@ -22,7 +22,7 @@ namespace systelab { namespace web_server { namespace test_utility {
 							 boost::asio::ssl::context::no_sslv3 |
 							 boost::asio::ssl::context::no_tlsv1);
 
-		setServerCertificate(serverCredentials.getCertificate());
+		setServerCertificate(securityConfiguration.getServerCertificate());
 		m_socket.reset(new boost::asio::ssl::stream<boost::asio::ip::tcp::socket>(m_io_service, context_));
 	}
 
