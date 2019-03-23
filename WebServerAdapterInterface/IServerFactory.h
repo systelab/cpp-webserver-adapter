@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+
+
 namespace systelab { namespace web_server {
 
 	class Configuration;
