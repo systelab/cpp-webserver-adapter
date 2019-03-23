@@ -8,11 +8,11 @@ This repository defines a library-agnostic API for C++ to work with a web server
 
 ## Supported features
 
-* HTTP server
-* HTTPS server
+* HTTP
+* HTTPS
 * Mutual SSL
-* CORS configuration
-* Thread pool configuration
+* CORS
+* Thread pool
 
 ## Available implementations
 
@@ -22,7 +22,7 @@ This repository defines a library-agnostic API for C++ to work with a web server
 
 Use of this library begins with an instance of `systelab::web_server::IServerFactory` class. See documentation of selected implementation for details about how to build one.
 
-### HTTP server
+### HTTP server set up
 
 Set up a new HTTP web server by providing a configuration object that specifies host address and port:
 
@@ -63,9 +63,19 @@ Finally, start the server calling the `start()` method:
 webServer->start();
 ```
 
-### HTTPS server
+### HTTPS
 
-`TBD`
+HTTPS can be enabled through the configuration object provided when creating the server. The `systelab::web_server::SecurityConfiguration` class allows defining the paths of the certificate files as follows:
+
+```cpp
+systelab::web_server::Configuration configuration;
+...
+systelab::web_server::SecurityConfiguration securityConfiguration = configuration.getSecurityConfiguration();
+securityConfiguration.setHTTPSEnabled(true);
+securityConfiguration.setServerCertificate("TBD");
+securityConfiguration.setServerPrivateKey("TBD");
+securityConfiguration.setServerDHParam("TBD");
+```
 
 ### Mutual SSL
 
