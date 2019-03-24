@@ -2,6 +2,13 @@ dist: xenial
 language: cpp
 compiler: gcc
 
+matrix:
+  include:
+  - compiler: gcc
+    env: BUILD_TYPE=Release
+  - compiler: gcc
+    env: BUILD_TYPE=Debug
+
 before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
@@ -13,6 +20,8 @@ install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
   - pip install conan --user
   - conan user
+  - conan remote add systelab-bintray https://api.bintray.com/conan/systelab/conan
+  - conan --version
 
 script:
   - g++ --version
@@ -21,3 +30,15 @@ script:
   - conan install ..
   - cmake ..
   - make
+  - |
+    if [ -n "$TRAVIS_TAG" ]; then
+      conan export-pkg ../conanfile.py "WebServerAdapter/${TRAVIS_TAG:1}@systelab/stable" -s build_type=${BUILD_TYPE};
+    else
+      conan export-pkg ../conanfile.py "WebServerAdapter/1.0.${TRAVIS_BUILD_NUMBER}@systelab/stable" -s build_type=${BUILD_TYPE};
+    fi
+
+deploy:
+  provider: script
+  script: conan upload "WebServerAdapter/${TRAVIS_TAG:1}@systelab/stable" --all -r systelab-bintray
+  on:
+    tags: true
