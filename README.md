@@ -70,16 +70,22 @@ HTTPS can be enabled through the configuration object provided when creating the
 ```cpp
 systelab::web_server::Configuration configuration;
 ...
-systelab::web_server::SecurityConfiguration securityConfiguration = configuration.getSecurityConfiguration();
+systelab::web_server::SecurityConfiguration& securityConfiguration = configuration.getSecurityConfiguration();
 securityConfiguration.setHTTPSEnabled(true);
-securityConfiguration.setServerCertificate("TBD");
-securityConfiguration.setServerPrivateKey("TBD");
-securityConfiguration.setServerDHParam("TBD");
+securityConfiguration.setServerCertificate("Server.cert");
+securityConfiguration.setServerPrivateKey("Server.key");
+securityConfiguration.setServerDHParam("Server.dhparam");
 ```
 
 ### Mutual SSL
 
-`TBD`
+To enable use of mutual SSL, the path of the client certificate must be specified through the security configuration of the server:
+
+```cpp
+systelab::web_server::SecurityConfiguration& securityConfiguration = configuration.getSecurityConfiguration();
+securityConfiguration.setMutualSSLEnabled(true);
+securityConfiguration.setClientCertificate("Client.cert");
+```
 
 ### CORS configuration
 
@@ -87,4 +93,9 @@ securityConfiguration.setServerDHParam("TBD");
 
 ### Thread pool configuration
 
-`TBD`
+The size of the pool of threads dedicated to attend server requests can be specified using the configuration option:
+
+```cpp
+systelab::web_server::Configuration configuration;
+configuration.setThreadPoolSize(4);
+```
