@@ -35,7 +35,7 @@ namespace systelab { namespace web_server {
 	private:
 		std::string m_hostAddress;
 		unsigned int m_port;
-		unsigned int m_threadPoolSize;
+		size_t m_threadPoolSize;
 		std::unique_ptr<CORSConfiguration> m_corsConfiguration;
 		std::unique_ptr<SecurityConfiguration> m_securityConfiguration;
 	};
