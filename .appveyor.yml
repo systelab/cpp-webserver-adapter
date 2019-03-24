@@ -25,7 +25,7 @@ install:
 before_build:
   - md build
   - cd build
-  - conan install ..
+  - conan install .. -s build_type=${BUILD_TYPE}
   - cmake .. -G "Visual Studio 15 2017 Win64"
 
 build:

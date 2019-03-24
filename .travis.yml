@@ -27,7 +27,7 @@ script:
   - g++ --version
   - mkdir -p build
   - cd build
-  - conan install ..
+  - conan install .. -s build_type=${BUILD_TYPE}
   - cmake ..
   - make
   - |
