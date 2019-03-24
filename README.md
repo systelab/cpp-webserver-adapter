@@ -69,7 +69,6 @@ HTTPS can be enabled through the configuration object provided when creating the
 
 ```cpp
 systelab::web_server::Configuration configuration;
-...
 systelab::web_server::SecurityConfiguration& securityConfiguration = configuration.getSecurityConfiguration();
 securityConfiguration.setHTTPSEnabled(true);
 securityConfiguration.setServerCertificate("Server.cert");
@@ -89,7 +88,19 @@ securityConfiguration.setClientCertificate("Client.cert");
 
 ### CORS configuration
 
-`TBD`
+The CORS configuration of the server can be defined using the `systelab::web_server::CORSConfiguration` class:
+
+```cpp
+systelab::web_server::Configuration configuration;
+systelab::web_server::CORSConfiguration& corsConfiguration = configuration.getCORSConfiguration();
+corsConfiguration.setEnabled(true);
+corsConfiguration.setAllowedOrigins({"http://127.0.0.1:4200", "http://127.0.0.1:8082"});
+corsConfiguration.setAllowedMethods({"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"});
+corsConfiguration.setAllowedHeaders({"Origin", "Authorization", "Content-Type"});
+corsConfiguration.setExposedHeaders({"Origin", "Authorization", "Content-Type"});
+corsConfiguration.setMaxAge(1209600);
+corsConfiguration.setAllowedCredentials(true);
+```
 
 ### Thread pool configuration
 
