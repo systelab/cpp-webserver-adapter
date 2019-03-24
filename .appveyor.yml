@@ -35,7 +35,7 @@ after_build:
   - conan export-pkg ../conanfile.py WebServerAdapter/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION%
 
 artifacts:
-  - path: 'build/WebServerAdapterTestUtilities/$(configuration)/WebServerAdapterTestUtilities.lib'
+  - path: 'build/lib/WebServerAdapterTestUtilities.lib'
     name: WebServerAdapterTestUtilities.lib
 
 deploy_script:
