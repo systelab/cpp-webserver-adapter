@@ -12,15 +12,17 @@ namespace systelab { namespace web_server {
 	class Configuration
 	{
 	public:
-		inline Configuration(const std::string& hostAddress,
-					  unsigned int port,
-					  unsigned int threadPoolSize);
+		inline Configuration();
 		inline Configuration(const Configuration&);
 		inline virtual ~Configuration();
 
 		inline std::string getHostAddress() const;
 		inline unsigned int getPort() const;
-		inline unsigned int getThreadPoolSize() const;
+		inline size_t getThreadPoolSize() const;
+
+		inline void setHostAddress(const std::string&);
+		inline void setPort(unsigned int);
+		inline void setThreadPoolSize(size_t);
 
 		inline const CORSConfiguration& getCORSConfiguration() const;
 		inline CORSConfiguration& getCORSConfiguration();

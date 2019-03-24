@@ -4,12 +4,10 @@
 
 namespace systelab { namespace web_server {
 
-	Configuration::Configuration(const std::string& hostAddress,
-								 unsigned int port,
-								 unsigned int threadPoolSize)
-		:m_hostAddress(hostAddress)
-		,m_port(port)
-		,m_threadPoolSize(threadPoolSize)
+	Configuration::Configuration()
+		:m_hostAddress("127.0.0.1")
+		,m_port(80)
+		,m_threadPoolSize(1)
 		,m_corsConfiguration(std::make_unique<CORSConfiguration>())
 		,m_securityConfiguration(std::make_unique<SecurityConfiguration>())
 	{
@@ -36,9 +34,24 @@ namespace systelab { namespace web_server {
 		return m_port;
 	}
 
-	unsigned int Configuration::getThreadPoolSize() const
+	size_t Configuration::getThreadPoolSize() const
 	{
 		return m_threadPoolSize;
+	}
+
+	void Configuration::setHostAddress(const std::string& hostAddress)
+	{
+		m_hostAddress = hostAddress;
+	}
+
+	void Configuration::setPort(unsigned int port)
+	{
+		m_port = port;
+	}
+
+	void Configuration::setThreadPoolSize(size_t threadPoolSize)
+	{
+		m_threadPoolSize = threadPoolSize;
 	}
 
 	const CORSConfiguration& Configuration::getCORSConfiguration() const
