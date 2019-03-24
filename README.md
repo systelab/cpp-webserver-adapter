@@ -69,22 +69,44 @@ HTTPS can be enabled through the configuration object provided when creating the
 
 ```cpp
 systelab::web_server::Configuration configuration;
-...
-systelab::web_server::SecurityConfiguration securityConfiguration = configuration.getSecurityConfiguration();
+systelab::web_server::SecurityConfiguration& securityConfiguration = configuration.getSecurityConfiguration();
 securityConfiguration.setHTTPSEnabled(true);
-securityConfiguration.setServerCertificate("TBD");
-securityConfiguration.setServerPrivateKey("TBD");
-securityConfiguration.setServerDHParam("TBD");
+securityConfiguration.setServerCertificate("Server.cert");
+securityConfiguration.setServerPrivateKey("Server.key");
+securityConfiguration.setServerDHParam("Server.dhparam");
 ```
 
 ### Mutual SSL
 
-`TBD`
+To enable use of mutual SSL, the path of the client certificate must be specified through the security configuration of the server:
+
+```cpp
+systelab::web_server::SecurityConfiguration& securityConfiguration = configuration.getSecurityConfiguration();
+securityConfiguration.setMutualSSLEnabled(true);
+securityConfiguration.setClientCertificate("Client.cert");
+```
 
 ### CORS configuration
 
-`TBD`
+The CORS configuration of the server can be defined using the `systelab::web_server::CORSConfiguration` class:
+
+```cpp
+systelab::web_server::Configuration configuration;
+systelab::web_server::CORSConfiguration& corsConfiguration = configuration.getCORSConfiguration();
+corsConfiguration.setEnabled(true);
+corsConfiguration.setAllowedOrigins({"http://127.0.0.1:4200", "http://127.0.0.1:8082"});
+corsConfiguration.setAllowedMethods({"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"});
+corsConfiguration.setAllowedHeaders({"Origin", "Authorization", "Content-Type"});
+corsConfiguration.setExposedHeaders({"Origin", "Authorization", "Content-Type"});
+corsConfiguration.setMaxAge(1209600);
+corsConfiguration.setAllowedCredentials(true);
+```
 
 ### Thread pool configuration
 
-`TBD`
+The size of the pool of threads dedicated to attend server requests can be specified using the configuration option:
+
+```cpp
+systelab::web_server::Configuration configuration;
+configuration.setThreadPoolSize(4);
+```
