@@ -13,7 +13,7 @@ before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
 
-install: 
+install:
   - sudo apt-get install -qq gcc-7
   - sudo apt-get install -qq g++-7
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 90
