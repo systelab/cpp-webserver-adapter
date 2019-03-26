@@ -11,6 +11,16 @@ namespace systelab { namespace web_server {
 	{
 	}
 
+	SecurityConfiguration::SecurityConfiguration(const SecurityConfiguration& other)
+		:m_httpsEnabled(other.m_httpsEnabled)
+		,m_serverCertificate(other.m_serverCertificate)
+		,m_serverPrivateKey(other.m_serverPrivateKey)
+		,m_serverDHParam(other.m_serverDHParam)
+		,m_mutualSSLEnabled(other.m_mutualSSLEnabled)
+		,m_clientCertificate(other.m_clientCertificate)
+	{
+	}
+
 	SecurityConfiguration::~SecurityConfiguration() = default;
 
 	bool SecurityConfiguration::isHTTPSEnabled() const

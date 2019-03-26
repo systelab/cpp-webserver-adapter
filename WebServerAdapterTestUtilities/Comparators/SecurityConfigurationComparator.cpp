@@ -9,7 +9,8 @@ using namespace testing;
 namespace systelab { namespace test_utility {
 
 	template <>
-	testing::AssertionResult EntityComparator::operator() (const systelab::web_server::SecurityConfiguration& expected, const systelab::web_server::SecurityConfiguration& actual) const
+	testing::AssertionResult EntityComparator::operator() (const systelab::web_server::SecurityConfiguration& expected,
+														   const systelab::web_server::SecurityConfiguration& actual) const
 	{
 		COMPARATOR_ASSERT_EQUAL(expected, actual, isHTTPSEnabled());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getServerCertificate());
