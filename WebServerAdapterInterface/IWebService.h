@@ -11,6 +11,8 @@ namespace systelab { namespace web_server {
 	class IWebService
 	{
 	public:
+		virtual ~IWebService() = default;
+
 		virtual std::unique_ptr<Reply> process(const Request& request) const = 0;
 	};
 
