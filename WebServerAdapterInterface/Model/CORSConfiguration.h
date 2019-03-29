@@ -1,6 +1,9 @@
 #pragma once
 
+#include <iostream>
 #include <set>
+#include <string>
+#include <sstream>
 
 
 namespace systelab { namespace web_server {
