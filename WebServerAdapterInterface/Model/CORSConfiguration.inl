@@ -37,7 +37,7 @@ namespace systelab { namespace web_server {
 
 	bool CORSConfiguration::isAllowedOrigin(const std::string& origin) const
 	{
-		return (m_allowedOrigins.count(origin) > 0) || (m_allowedOrigins.count("*") > 0);
+		return (m_allowedOrigins.count(origin) > 0) || (m_allowedOrigins.count(std::string("*")) > 0);
 	}
 
 	std::set<std::string> CORSConfiguration::getAllowedOrigins() const
@@ -57,7 +57,7 @@ namespace systelab { namespace web_server {
 
 	bool CORSConfiguration::isAllowedMethod(const std::string& method) const
 	{
-		return (m_allowedMethods.count(method) > 0) || (m_allowedMethods.count("*") > 0);
+		return (m_allowedMethods.count(method) > 0) || (m_allowedMethods.count(std::string("*")) > 0);
 	}
 
 	std::set<std::string> CORSConfiguration::getAllowedMethods() const
@@ -77,7 +77,7 @@ namespace systelab { namespace web_server {
 
 	bool CORSConfiguration::isAllowedHeader(const std::string& header) const
 	{
-		return (m_allowedHeaders.count(header) > 0) || (m_allowedHeaders.count("*") > 0);
+		return (m_allowedHeaders.count(header) > 0) || (m_allowedHeaders.count(std::string("*")) > 0);
 	}
 
 	std::set<std::string> CORSConfiguration::getAllowedHeaders() const
@@ -97,7 +97,7 @@ namespace systelab { namespace web_server {
 
 	bool CORSConfiguration::isExposedHeader(const std::string& header) const
 	{
-		return (m_exposedHeaders.count(header) > 0) || (m_exposedHeaders.count("*") > 0);
+		return (m_exposedHeaders.count(header) > 0) || (m_exposedHeaders.count(std::string("*")) > 0);
 	}
 
 	std::set<std::string> CORSConfiguration::getExposedHeaders() const
