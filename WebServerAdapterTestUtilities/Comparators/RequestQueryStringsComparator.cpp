@@ -28,7 +28,7 @@ namespace systelab { namespace test_utility {
 			if (actualQueryStrings[expectedQueryStringName] != expectedQueryStringValue)
 			{
 				return AssertionFailure() << "Query string '" << expectedQueryStringName << "' is different: expected="
-										  << expectedQueryStringValue << ", actual= " << actualQueryStrings[expectedQueryStringName];
+										  << expectedQueryStringValue << ", actual=" << actualQueryStrings[expectedQueryStringName];
 			}
 		}
 
