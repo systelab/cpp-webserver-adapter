@@ -15,12 +15,20 @@ namespace systelab { namespace test_utility {
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getPort());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getThreadPoolSize());
 
-		const systelab::web_server::CORSConfiguration& expectedCORSConfiguration = expected.getCORSConfiguration();
-		const systelab::web_server::CORSConfiguration& actualCORSConfiguration = actual.getCORSConfiguration();
+		const auto& expectedCORSConfiguration = expected.getCORSConfiguration();
+		const auto& actualCORSConfiguration = actual.getCORSConfiguration();
 		AssertionResult corsConfigurationResult = EntityComparator()(expectedCORSConfiguration, actualCORSConfiguration);
 		if (!corsConfigurationResult)
 		{
 			return AssertionFailure() << "Different CORS configuration: " << corsConfigurationResult.message();
+		}
+
+		const auto& expectedSecurityConfiguration = expected.getSecurityConfiguration();
+		const auto& actualSecurityConfiguration = actual.getSecurityConfiguration();
+		AssertionResult securityConfigurationResult = EntityComparator()(expectedSecurityConfiguration, actualSecurityConfiguration);
+		if (!securityConfigurationResult)
+		{
+			return AssertionFailure() << "Different security configuration: " << securityConfigurationResult.message();
 		}
 
 		return AssertionSuccess();
