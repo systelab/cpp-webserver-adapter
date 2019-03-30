@@ -17,25 +17,20 @@ namespace systelab { namespace test_utility {
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getHttpVersionMinor());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getContent());
 
-		auto expectedHeaders = expected.getHeaders().getHeadersMap();
-		auto actualHeaders = actual.getHeaders().getHeadersMap();
-
-		COMPARATOR_ASSERT_EQUAL(expectedHeaders, actualHeaders, size() );
-		for (auto it = expectedHeaders.begin(); it != expectedHeaders.end(); it++)
+		const auto& expectedHeaders = expected.getHeaders();
+		const auto& actualHeaders = actual.getHeaders();
+		AssertionResult headersResult = EntityComparator()(expectedHeaders, actualHeaders);
+		if (!headersResult)
 		{
-			std::string expectedHeaderName = it->first;
-			std::string expectedHeaderValue = it->second;
+			return AssertionFailure() << "Different headers: " << headersResult.message();
+		}
 
-			if (actualHeaders.find(expectedHeaderName) == actualHeaders.end())
-			{
-				return AssertionFailure() << "Expected header '" << expectedHeaderName << "' not found";
-			}
-
-			if (actualHeaders[expectedHeaderName] != expectedHeaderValue)
-			{
-				return AssertionFailure() << "Header '" << expectedHeaderName << "' is different: expected="
-										  << expectedHeaderValue << ", actual= " << actualHeaders[expectedHeaderName];
-			}
+		const auto& expectedQueryStrings = expected.getQueryStrings();
+		const auto& actualQueryStrings = actual.getQueryStrings();
+		AssertionResult queryStringsResult = EntityComparator()(expectedQueryStrings, actualQueryStrings);
+		if (!queryStringsResult)
+		{
+			return AssertionFailure() << "Different query strings: " << queryStringsResult.message();
 		}
 
 		return AssertionSuccess();
