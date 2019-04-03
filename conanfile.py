@@ -13,12 +13,13 @@ class WebServerAdapterConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
 
     def requirements(self):
-        self.requires("TestUtilitiesInterface/1.0.2@systelab/stable")
+        self.requires("TestUtilitiesInterface/1.0.0@systelab/stable")
 
     def package(self):
         self.copy("*.h", dst="include/WebServerAdapterInterface", src="WebServerAdapterInterface")
         self.copy("*.h", dst="include/WebServerAdapterTestUtilities", src="WebServerAdapterTestUtilities")
         self.copy("*WebServerAdapterTestUtilities.lib", dst="lib", keep_path=False)
+        self.copy("*WebServerAdapterTestUtilities.pdb", dst="lib", keep_path=False)
         self.copy("*WebServerAdapterTestUtilities.a", dst="lib", keep_path=False)
 
     def package_info(self):
