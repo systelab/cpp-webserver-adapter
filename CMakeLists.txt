@@ -17,7 +17,7 @@ conan_basic_setup()
 
 # Setup extern repositories
 include(GitCloneRepository)
-git_clone_repository(URL https://github.com/systelab/cpp-test-utilities.git DIR extern/TestUtilities BRANCH v1.0.2)
+git_clone_repository(URL https://github.com/systelab/cpp-test-utilities.git DIR extern/TestUtilities BRANCH v1.0.3)
 
 # Configure include directories
 include_directories(${CMAKE_SOURCE_DIR})
