@@ -12,9 +12,6 @@ class WebServerAdapterConan(ConanFile):
     generators = "cmake"
     settings = "os", "compiler", "build_type", "arch"
 
-    def requirements(self):
-        self.requires("TestUtilitiesInterface/1.0.0@systelab/stable")
-
     def package(self):
         self.copy("*.h", dst="include/WebServerAdapterInterface", src="WebServerAdapterInterface")
         self.copy("*.h", dst="include/WebServerAdapterTestUtilities", src="WebServerAdapterTestUtilities")
