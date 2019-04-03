@@ -17,6 +17,7 @@ class WebServerAdapterConan(ConanFile):
 
     def package(self):
         self.copy("*.h", dst="include/WebServerAdapterInterface", src="WebServerAdapterInterface")
+        self.copy("*.inl", dst="include/WebServerAdapterInterface", src="WebServerAdapterInterface")
         self.copy("*.h", dst="include/WebServerAdapterTestUtilities", src="WebServerAdapterTestUtilities")
         self.copy("*WebServerAdapterTestUtilities.lib", dst="lib", keep_path=False)
         self.copy("*WebServerAdapterTestUtilities.pdb", dst="lib", keep_path=False)
