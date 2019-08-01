@@ -9,7 +9,7 @@ class WebServerAdapterConan(ConanFile):
     author = "CSW <csw@werfen.com>"
     topics = ("conan", "web", "server", "http", "adapter", "wrapper")
     license = "MIT"
-    generators = "cmake"
+    generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
 
     def requirements(self):
