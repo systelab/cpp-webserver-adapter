@@ -1,9 +1,14 @@
 import os
 from conans import ConanFile, CMake, tools
 
-class WebServerAdapterTestConan(ConanFile):
+class WebServerAdapterTestUtilitiesTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake_find_package"
+    options = {"gtest": ["1.7.0", "1.8.1"]}
+    default_options = "gtest=1.8.1"
+
+    def configure(self):
+        self.options["WebServerAdapterTestUtilities"].gtest = self.options.gtest
 
     def build(self):
         cmake = CMake(self)
