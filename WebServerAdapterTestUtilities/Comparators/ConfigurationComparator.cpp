@@ -2,6 +2,7 @@
 #include "WebServerAdapterInterface/Model/Configuration.h"
 
 #include "TestUtilitiesInterface/EntityComparator.h"
+#include "TestUtilitiesInterface/EntityComparatorMacros.h"
 
 
 using namespace testing;
