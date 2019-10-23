@@ -7,8 +7,12 @@ namespace systelab { namespace web_server {
 	}
 
 	RequestQueryStrings::RequestQueryStrings(const std::map<std::string, std::string>& items)
-		: m_items(items)
+		: m_items()
 	{
+		for (auto item : items)
+		{
+			m_items.insert({ toLowerCase(item.first),  toLowerCase(item.second) });
+		}
 	}
 
 	RequestQueryStrings::~RequestQueryStrings()
@@ -17,19 +21,20 @@ namespace systelab { namespace web_server {
 
 	bool RequestQueryStrings::hasItem(const std::string& name) const
 	{
-		return (m_items.find(name) != m_items.end());
+		return (m_items.find(toLowerCase(name)) != m_items.end());
 	}
 
 	std::string RequestQueryStrings::getItem(const std::string& name) const
 	{
-		auto it = m_items.find(name);
-		if (m_items.find(name) != m_items.end())
+		auto it = m_items.find(toLowerCase(name));
+		if (it != m_items.end())
 		{
 			return it->second;
 		}
 		else
 		{
-			throw std::runtime_error("Query string item '" + name + "' not found.");
+			std::string exc = std::string("Query string item '") + toLowerCase(name) + std::string("' not found.");
+			throw std::exception(exc.c_str());
 		}
 	}
 
@@ -40,7 +45,27 @@ namespace systelab { namespace web_server {
 
 	void RequestQueryStrings::addItem(const std::string& name, const std::string& value)
 	{
-		m_items.insert(std::make_pair(name, value));
+		m_items.insert(std::make_pair(toLowerCase(name), toLowerCase(value)));
+	}
+
+	std::string RequestQueryStrings::toLowerCase(const std::string& value) const
+	{
+		std::string lowerValue = value;
+		std::transform(lowerValue.begin(), lowerValue.end(), lowerValue.begin(),
+			[](unsigned char c) -> unsigned char
+			{
+				if (c <= 'Z' && c >= 'A')
+				{
+					return c - ('Z' - 'z');
+				}
+				else
+				{
+					return c;
+				}
+			}
+		);
+
+		return lowerValue;
 	}
 
 }}

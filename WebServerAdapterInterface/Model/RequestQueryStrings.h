@@ -20,6 +20,9 @@ namespace systelab { namespace web_server {
 		inline void addItem(const std::string& name, const std::string& value);
 
 	private:
+		inline std::string toLowerCase(const std::string&) const;
+
+	private:
 		std::map<std::string, std::string> m_items;
 	};
 
