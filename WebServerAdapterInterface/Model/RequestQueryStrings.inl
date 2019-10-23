@@ -1,3 +1,5 @@
+#include <algorithm>
+
 
 namespace systelab { namespace web_server {
 
