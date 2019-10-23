@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "TestUtilitiesInterface/EntityComparator.h"
+#include "TestUtilitiesInterface/EntityComparatorMacros.h"
 
 #include "WebServerAdapterInterface/Model/CORSConfiguration.h"
 
