@@ -12,6 +12,7 @@ namespace systelab { namespace test_utility {
 	template <>
 	testing::AssertionResult EntityComparator::operator() (const systelab::web_server::Configuration& expected, const systelab::web_server::Configuration& actual) const
 	{
+		COMPARATOR_ASSERT_EQUAL(expected, actual, hasSingleHostAddress());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getHostAddress());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getPort());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getThreadPoolSize());

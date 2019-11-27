@@ -5,6 +5,7 @@
 namespace systelab { namespace web_server {
 
 	Configuration::Configuration()
+		,m_singleHostAddress(false)
 		:m_hostAddress("127.0.0.1")
 		,m_port(80)
 		,m_threadPoolSize(1)
@@ -14,7 +15,8 @@ namespace systelab { namespace web_server {
 	}
 
 	Configuration::Configuration(const Configuration& other)
-		:m_hostAddress(other.m_hostAddress)
+		:m_singleHostAddress(other.m_singleHostAddress)
+		,m_hostAddress(other.m_hostAddress)
 		,m_port(other.m_port)
 		,m_threadPoolSize(other.m_threadPoolSize)
 		,m_corsConfiguration(std::make_unique<CORSConfiguration>(*other.m_corsConfiguration))
@@ -23,6 +25,11 @@ namespace systelab { namespace web_server {
 	}
 
 	Configuration::~Configuration() = default;
+
+	bool Configuration::hasSingleHostAddress() const
+	{
+		return m_singleHostAddress;
+	}
 
 	std::string Configuration::getHostAddress() const
 	{
@@ -37,6 +44,11 @@ namespace systelab { namespace web_server {
 	size_t Configuration::getThreadPoolSize() const
 	{
 		return m_threadPoolSize;
+	}
+
+	void Configuration::setSingleHostAddress(bool singleHostAddress)
+	{
+		m_singleHostAddress = singleHostAddress;
 	}
 
 	void Configuration::setHostAddress(const std::string& hostAddress)
@@ -76,6 +88,7 @@ namespace systelab { namespace web_server {
 
 	Configuration& Configuration::operator= (const Configuration& other)
 	{
+		m_singleHostAddress = other.m_singleHostAddress;
 		m_hostAddress = other.m_hostAddress;
 		m_port = other.m_port;
 		m_threadPoolSize = other.m_threadPoolSize;

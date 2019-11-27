@@ -16,10 +16,12 @@ namespace systelab { namespace web_server {
 		inline Configuration(const Configuration&);
 		inline virtual ~Configuration();
 
+		inline bool hasSingleHostAddress() const;
 		inline std::string getHostAddress() const;
 		inline unsigned int getPort() const;
 		inline size_t getThreadPoolSize() const;
 
+		inline void setSingleHostAddress(bool);
 		inline void setHostAddress(const std::string&);
 		inline void setPort(unsigned int);
 		inline void setThreadPoolSize(size_t);
@@ -33,6 +35,7 @@ namespace systelab { namespace web_server {
 		inline Configuration& operator= (const Configuration& other);
 
 	private:
+		bool m_singleHostAddress;
 		std::string m_hostAddress;
 		unsigned int m_port;
 		size_t m_threadPoolSize;
