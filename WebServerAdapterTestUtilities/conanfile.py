@@ -1,5 +1,5 @@
 import os
-from conans import ConanFile, tools
+from conans import ConanFile, tools, CMake
 
 
 class WebServerAdapterTestUtilitiesConan(ConanFile):
@@ -28,10 +28,10 @@ class WebServerAdapterTestUtilitiesConan(ConanFile):
         else:
             self.requires("WebServerAdapterInterface/%s@systelab/stable" % self.version)
 
-	def build(self):
+    def build(self):
         cmake = CMake(self)
         cmake.configure(source_folder=".")
-        cmake.build()		
+        cmake.build()
 
     def package(self):
         self.copy("*.h", dst="include/WebServerAdapterTestUtilities", keep_path=True)
