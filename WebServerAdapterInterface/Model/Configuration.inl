@@ -5,8 +5,8 @@
 namespace systelab { namespace web_server {
 
 	Configuration::Configuration()
-		,m_singleHostAddress(false)
-		:m_hostAddress("127.0.0.1")
+		:m_singleHostAddress(false)
+		,m_hostAddress("127.0.0.1")
 		,m_port(80)
 		,m_threadPoolSize(1)
 		,m_corsConfiguration(std::make_unique<CORSConfiguration>())
