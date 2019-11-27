@@ -14,6 +14,7 @@ class WebServerAdapterTestUtilitiesConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"gtest": ["1.7.0", "1.8.1"]}
     default_options = "gtest=1.8.1"
+    exports_sources = "*"
 
     def requirements(self):
         if self.options.gtest == "1.7.0":
@@ -26,6 +27,11 @@ class WebServerAdapterTestUtilitiesConan(ConanFile):
             self.requires("WebServerAdapterInterface/%s@systelab/stable" % os.environ['VERSION'])
         else:
             self.requires("WebServerAdapterInterface/%s@systelab/stable" % self.version)
+
+	def build(self):
+        cmake = CMake(self)
+        cmake.configure(source_folder=".")
+        cmake.build()		
 
     def package(self):
         self.copy("*.h", dst="include/WebServerAdapterTestUtilities", keep_path=True)
