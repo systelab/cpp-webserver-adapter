@@ -9,6 +9,7 @@ namespace systelab { namespace web_server {
 		,m_hostAddress("127.0.0.1")
 		,m_port(80)
 		,m_threadPoolSize(1)
+		,m_gzipCompressionEnabled(false)
 		,m_corsConfiguration(std::make_unique<CORSConfiguration>())
 		,m_securityConfiguration(std::make_unique<SecurityConfiguration>())
 	{
@@ -19,6 +20,7 @@ namespace systelab { namespace web_server {
 		,m_hostAddress(other.m_hostAddress)
 		,m_port(other.m_port)
 		,m_threadPoolSize(other.m_threadPoolSize)
+		,m_gzipCompressionEnabled(other.m_gzipCompressionEnabled)
 		,m_corsConfiguration(std::make_unique<CORSConfiguration>(*other.m_corsConfiguration))
 		,m_securityConfiguration(std::make_unique<SecurityConfiguration>(*other.m_securityConfiguration))
 	{
@@ -46,6 +48,11 @@ namespace systelab { namespace web_server {
 		return m_threadPoolSize;
 	}
 
+	bool Configuration::isGZIPCompressionEnabled() const
+	{
+		return m_gzipCompressionEnabled;
+	}
+
 	void Configuration::setSingleHostAddress(bool singleHostAddress)
 	{
 		m_singleHostAddress = singleHostAddress;
@@ -64,6 +71,11 @@ namespace systelab { namespace web_server {
 	void Configuration::setThreadPoolSize(size_t threadPoolSize)
 	{
 		m_threadPoolSize = threadPoolSize;
+	}
+
+	void Configuration::setGZIPCompressionEnabled(bool enabled)
+	{
+		m_gzipCompressionEnabled = enabled;
 	}
 
 	const CORSConfiguration& Configuration::getCORSConfiguration() const
@@ -92,6 +104,7 @@ namespace systelab { namespace web_server {
 		m_hostAddress = other.m_hostAddress;
 		m_port = other.m_port;
 		m_threadPoolSize = other.m_threadPoolSize;
+		m_gzipCompressionEnabled = other.m_gzipCompressionEnabled;
 		*m_corsConfiguration = *other.m_corsConfiguration;
 		*m_securityConfiguration = *other.m_securityConfiguration;
 

@@ -20,11 +20,13 @@ namespace systelab { namespace web_server {
 		inline std::string getHostAddress() const;
 		inline unsigned int getPort() const;
 		inline size_t getThreadPoolSize() const;
+		inline bool isGZIPCompressionEnabled() const;
 
 		inline void setSingleHostAddress(bool);
 		inline void setHostAddress(const std::string&);
 		inline void setPort(unsigned int);
 		inline void setThreadPoolSize(size_t);
+		inline void setGZIPCompressionEnabled(bool);
 
 		inline const CORSConfiguration& getCORSConfiguration() const;
 		inline CORSConfiguration& getCORSConfiguration();
@@ -39,6 +41,7 @@ namespace systelab { namespace web_server {
 		std::string m_hostAddress;
 		unsigned int m_port;
 		size_t m_threadPoolSize;
+		bool m_gzipCompressionEnabled;
 		std::unique_ptr<CORSConfiguration> m_corsConfiguration;
 		std::unique_ptr<SecurityConfiguration> m_securityConfiguration;
 	};
