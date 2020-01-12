@@ -18,6 +18,7 @@ This repository defines a library-agnostic API for C++ to work with a web server
 ## Available implementations
 
 * [BoostAsioWebServerAdapter](https://github.com/systelab/cpp-boostasio-webserver-adapter)
+* [HttpLibWebServerAdapter](https://github.com/systelab/cpp-httplib-webserver-adapter)
 
 ## Usage
 
