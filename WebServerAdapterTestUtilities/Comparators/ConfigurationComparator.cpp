@@ -16,6 +16,7 @@ namespace systelab { namespace test_utility {
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getHostAddress());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getPort());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getThreadPoolSize());
+		COMPARATOR_ASSERT_EQUAL(expected, actual, isGZIPCompressionEnabled());
 
 		const auto& expectedCORSConfiguration = expected.getCORSConfiguration();
 		const auto& actualCORSConfiguration = actual.getCORSConfiguration();
