@@ -48,7 +48,7 @@ namespace systelab { namespace web_server {
 		return m_threadPoolSize;
 	}
 
-	bool Configuration::getGZIPCompressionEnabled() const
+	bool Configuration::isGZIPCompressionEnabled() const
 	{
 		return m_gzipCompressionEnabled;
 	}

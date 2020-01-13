@@ -20,7 +20,7 @@ namespace systelab { namespace web_server {
 		inline std::string getHostAddress() const;
 		inline unsigned int getPort() const;
 		inline size_t getThreadPoolSize() const;
-		inline bool getGZIPCompressionEnabled() const;
+		inline bool isGZIPCompressionEnabled() const;
 
 		inline void setSingleHostAddress(bool);
 		inline void setHostAddress(const std::string&);
