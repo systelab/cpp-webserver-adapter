@@ -14,6 +14,7 @@ This repository defines a library-agnostic API for C++ to work with a web server
 * Mutual SSL
 * CORS
 * Thread pool
+* GZIP compression
 
 ## Available implementations
 
@@ -111,4 +112,13 @@ The size of the pool of threads dedicated to attend server requests can be speci
 ```cpp
 systelab::web_server::Configuration configuration;
 configuration.setThreadPoolSize(4);
+```
+
+### GZIP compression
+
+The server can be configured to automatically apply gzip compression to payload of replies by enabling the following configuration option:
+
+```cpp
+systelab::web_server::Configuration configuration;
+configuration.setGZIPCompressionEnabled(true);
 ```
