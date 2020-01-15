@@ -9,6 +9,7 @@ This repository defines a library-agnostic API for C++ to work with a web server
 
 ## Supported features
 
+* Server and client
 * HTTP
 * HTTPS
 * Mutual SSL
@@ -23,7 +24,11 @@ This repository defines a library-agnostic API for C++ to work with a web server
 
 ## Usage
 
-Use of this library begins with an instance of `systelab::web_server::IServerFactory` class. See documentation of selected implementation for details about how to build one.
+Use of this library begins with an instance of:
+* `systelab::web_server::IServerFactory` class (for server features)
+* `systelab::web_server::IClientFactory` class (for client features)
+
+See documentation of selected implementation for details about how to build one.
 
 ### HTTP server set up
 
@@ -121,4 +126,36 @@ The server can be configured to automatically apply gzip compression to payload 
 ```cpp
 systelab::web_server::Configuration configuration;
 configuration.setGZIPCompressionEnabled(true);
+```
+
+### HTTP/HTTPS client usage
+
+Set up a new HTTP client by providing a server IP address and a port number:
+
+```cpp
+systelab::web_server::IClientFactory& clientFactory = ...
+std::unique_ptr<systelab::web_server::IClient> client = clientFactory.buildHTTPClient("127.0.0.1", 8080);
+```
+
+Similarly, an HTTPS client can be created as follows:
+
+```cpp
+systelab::web_server::IClientFactory& clientFactory = ...
+std::unique_ptr<systelab::web_server::IClient> client = clientFactory.buildHTTPSClient("localhost", 9090);
+```
+
+Then, the returned `systelab::web_server::IClient` object can be used to send requests to the server:
+
+```cpp
+systelab::web_server::Request request;
+request.setMethod("POST");
+request.setURI("/rest/api/login"); 
+request.setContent("PasswordGoesHere");
+request.getHeaders().addHeader("Content-Type", "text/plain");
+
+std::unique_ptr<Reply> reply = client->send(request);
+
+systelab::web_server::Reply::StatusType status = reply->getStatus();
+std::map<std::string, std::string> headers = reply->getHeaders();
+std::string content = reply->getContent();
 ```
