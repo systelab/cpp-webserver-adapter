@@ -4,10 +4,7 @@
 
 namespace systelab { namespace web_server { namespace test_utility {
 
-	MockServer::MockServer()
-	{
-	}
-
+	MockServer::MockServer() = default;
 	MockServer::~MockServer() = default;
 
 }}}
