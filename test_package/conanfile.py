@@ -3,8 +3,8 @@ from conans import ConanFile, CMake
 class WebServerAdapterTestUtilitiesTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake_find_package"
-    options = {"gtest": ["1.7.0", "1.8.1"]}
-    default_options = "gtest=1.8.1"
+    options = {"gtest": ["1.7.0", "1.8.1", "1.10.0"]}
+    default_options = "gtest=1.10.0"
 
     def configure(self):
         self.options["WebServerAdapterTestUtilities"].gtest = self.options.gtest
