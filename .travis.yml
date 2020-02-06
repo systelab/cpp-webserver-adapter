@@ -59,9 +59,9 @@ script:
   - g++ --version
   - |
     if [ -n "$TRAVIS_TAG" ]; then
-      conan export-pkg WebServerAdapterInterface/conanfile.py "WebServerAdapterInterface/${TRAVIS_TAG:1}@systelab/stable" -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION};
+      conan export-pkg WebServerAdapterInterface/conanfile.py "WebServerAdapterInterface/${TRAVIS_TAG:1}@systelab/stable" -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX};
     else
-      conan export-pkg WebServerAdapterInterface/conanfile.py "WebServerAdapterInterface/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable" -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX} -o gtest=${GTEST_VERSION};
+      conan export-pkg WebServerAdapterInterface/conanfile.py "WebServerAdapterInterface/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable" -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX};
     fi
   - mkdir -p build
   - cd build
