@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <stdexcept>
 
 
 namespace systelab { namespace web_server {
