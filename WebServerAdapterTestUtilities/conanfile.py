@@ -12,15 +12,17 @@ class WebServerAdapterTestUtilitiesConan(ConanFile):
     license = "MIT"
     generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"gtest": ["1.7.0", "1.8.1"]}
-    default_options = "gtest=1.8.1"
+    options = {"gtest": ["1.7.0", "1.8.1", "1.10.0"]}
+    default_options = "gtest=1.10.0"
     exports_sources = "*"
 
     def requirements(self):
         if self.options.gtest == "1.7.0":
             self.requires("gtest/1.7.0@systelab/stable")
-        else:
+        elif self.options.gtest == "1.8.1":
             self.requires("gtest/1.8.1@bincrafters/stable")
+        else:
+            self.requires("gtest/1.10.0@systelab/stable")
 
         self.requires("TestUtilitiesInterface/1.0.3@systelab/stable")
         if ("%s" % self.version) == "None":
