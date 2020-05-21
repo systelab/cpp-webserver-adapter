@@ -2,6 +2,7 @@
 
 #include "WebServerAdapterInterface/IServerFactory.h"
 
+#include "WebServerAdapterInterface/IServer.h"
 #include "WebServerAdapterInterface/Model/Configuration.h"
 
 
@@ -13,10 +14,10 @@ namespace systelab { namespace web_server { namespace test_utility {
 		MockServerFactory();
 		virtual ~MockServerFactory();
 
-		MOCK_METHOD1(setConfigurationProxy, void(Configuration*));
-		void setConfiguration(std::unique_ptr<Configuration> configuration)
+		MOCK_CONST_METHOD1(buildServerProxy, IServer*(const Configuration&));
+		std::unique_ptr<IServer> buildServer(const Configuration& configuration) const override
 		{
-			setConfigurationProxy(configuration.release());
+			return std::unique_ptr<IServer>(buildServerProxy(configuration));
 		}
 	};
 
