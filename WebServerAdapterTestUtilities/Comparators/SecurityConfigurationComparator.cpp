@@ -21,6 +21,11 @@ namespace systelab { namespace test_utility {
 		COMPARATOR_ASSERT_EQUAL(expected, actual, isMutualSSLEnabled());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getClientCertificate());
 
+		COMPARATOR_ASSERT_EQUAL(expected, actual, isTLSv10Enabled());
+		COMPARATOR_ASSERT_EQUAL(expected, actual, isTLSv11Enabled());
+		COMPARATOR_ASSERT_EQUAL(expected, actual, isTLSv12Enabled());
+		COMPARATOR_ASSERT_EQUAL(expected, actual, isTLSv13Enabled());
+
 		return AssertionSuccess();
 	}
 
