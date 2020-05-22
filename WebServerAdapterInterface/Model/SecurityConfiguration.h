@@ -17,6 +17,11 @@ namespace systelab { namespace web_server {
 		inline bool isMutualSSLEnabled() const;
 		inline std::string getClientCertificate() const;
 
+		inline bool isTLSv10Enabled() const;
+		inline bool isTLSv11Enabled() const;
+		inline bool isTLSv12Enabled() const;
+		inline bool isTLSv13Enabled() const;
+
 		inline void setHTTPSEnabled(bool);
 		inline void setServerCertificate(const std::string&);
 		inline void setServerPrivateKey(const std::string&);
@@ -24,6 +29,11 @@ namespace systelab { namespace web_server {
 
 		inline void setMutualSSLEnabled(bool);
 		inline void setClientCertificate(const std::string&);
+
+		inline void setTLSv10Enabled(bool);
+		inline void setTLSv12Enabled(bool);
+		inline void setTLSv13Enabled(bool);
+		inline void setTLSv11Enabled(bool);
 
 		inline SecurityConfiguration& operator= (const SecurityConfiguration&);
 
@@ -35,6 +45,11 @@ namespace systelab { namespace web_server {
 
 		bool m_mutualSSLEnabled;
 		std::string m_clientCertificate;
+		
+		bool m_tlsv10Enabled;
+		bool m_tlsv11Enabled;
+		bool m_tlsv12Enabled;
+		bool m_tlsv13Enabled;
 	};
 
 }}
