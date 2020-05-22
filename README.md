@@ -84,6 +84,15 @@ securityConfiguration.setServerPrivateKey("Server.key");
 securityConfiguration.setServerDHParam("Server.dhparam");
 ```
 
+Additionally, support for specific [TLS](https://wiki.openssl.org/index.php/SSL/TLS_Client) versions can be enabled/disabled:
+
+```cpp
+securityConfiguration.setTLSv12Enabled(false);
+securityConfiguration.setTLSv13Enabled(true);
+```
+
+> By default only TLS v1.2 is enabled. TLS v1.3 needs to be enabled on demand because it is not supported before OpenSSL 1.1.1. Older TLS versions should be always disabled as they have known security vulnerabilities.
+
 ### Mutual SSL
 
 To enable use of mutual SSL, the path of the client certificate must be specified through the security configuration of the server:
