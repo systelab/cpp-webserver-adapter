@@ -8,6 +8,11 @@ namespace systelab { namespace web_server {
 	{
 	}
 
+	RequestHeaders::RequestHeaders(const RequestHeaders& other)
+		:m_headers(other.m_headers)
+	{
+	}
+
 	RequestHeaders::RequestHeaders(const std::map<std::string, std::string>& headers)
 		: m_headers(headers)
 	{
@@ -41,6 +46,12 @@ namespace systelab { namespace web_server {
 	void RequestHeaders::addHeader(const std::string& name, const std::string& value)
 	{
 		m_headers.insert(std::make_pair(name, value));
+	}
+
+	RequestHeaders& RequestHeaders::operator= (const RequestHeaders& other)
+	{
+		m_headers = other.m_headers;
+		return *this;
 	}
 
 }}

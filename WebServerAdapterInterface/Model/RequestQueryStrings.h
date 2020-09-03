@@ -10,6 +10,7 @@ namespace systelab { namespace web_server {
 	{
 	public:
 		inline RequestQueryStrings();
+		inline RequestQueryStrings(const RequestQueryStrings&);
 		inline RequestQueryStrings(const std::map<std::string, std::string>&);
 		inline virtual ~RequestQueryStrings();
 

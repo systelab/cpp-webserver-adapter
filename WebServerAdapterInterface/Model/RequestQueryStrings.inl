@@ -9,6 +9,11 @@ namespace systelab { namespace web_server {
 	{
 	}
 
+	RequestQueryStrings::RequestQueryStrings(const RequestQueryStrings& other)
+		:m_items(other.m_items)
+	{
+	}
+
 	RequestQueryStrings::RequestQueryStrings(const std::map<std::string, std::string>& items)
 		: m_items()
 	{
@@ -49,6 +54,12 @@ namespace systelab { namespace web_server {
 	void RequestQueryStrings::addItem(const std::string& name, const std::string& value)
 	{
 		m_items.insert(std::make_pair(toLowerCase(name), toLowerCase(value)));
+	}
+
+	RequestQueryStrings& RequestQueryStrings::operator= (const RequestQueryStrings& other)
+	{
+		m_items = other.m_items;
+		return *this;
 	}
 
 	std::string RequestQueryStrings::toLowerCase(const std::string& value) const
