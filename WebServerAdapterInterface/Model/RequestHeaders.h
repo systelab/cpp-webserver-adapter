@@ -21,7 +21,7 @@ namespace systelab { namespace web_server {
 		inline void addHeader(const std::string& name, const std::string& value);
 
 		inline RequestHeaders& operator= (const RequestHeaders&);
-				
+
 	private:
 		std::map<std::string, std::string> m_headers;
 	};

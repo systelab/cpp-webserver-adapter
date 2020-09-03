@@ -20,6 +20,8 @@ namespace systelab { namespace web_server {
 
 		inline void addItem(const std::string& name, const std::string& value);
 
+		inline RequestQueryStrings& operator= (const RequestQueryStrings&);
+
 	private:
 		inline std::string toLowerCase(const std::string&) const;
 

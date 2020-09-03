@@ -116,7 +116,7 @@ namespace systelab { namespace web_server {
 		return m_queryStrings;
 	}
 
-	void RequestQueryStrings::setQueryStrings(const RequestQueryStrings& queryStrings)
+	void Request::setQueryStrings(const RequestQueryStrings& queryStrings)
 	{
 		m_queryStrings = queryStrings;
 	}
