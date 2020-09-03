@@ -46,9 +46,21 @@ namespace systelab { namespace web_server { namespace test_utility {
 		return *this;
 	}
 
+	RequestBuilder& RequestBuilder::addHeader(const std::string& name, const std::string& value)
+	{
+		m_request.getHeaders().addHeader(name, value);
+		return *this;
+	}
+
 	RequestBuilder& RequestBuilder::setHeaders(const RequestHeaders& headers)
 	{
 		m_request.setHeaders(headers);
+		return *this;
+	}
+
+	RequestBuilder& RequestBuilder::addQueryString(const std::string& name, const std::string& value)
+	{
+		m_request.getQueryStrings().addItem(name, value);
 		return *this;
 	}
 

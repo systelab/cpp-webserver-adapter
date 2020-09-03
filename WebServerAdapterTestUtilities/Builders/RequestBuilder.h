@@ -18,7 +18,10 @@ namespace systelab { namespace web_server { namespace test_utility {
 		RequestBuilder& setHttpVersionMinor(unsigned int);
 		RequestBuilder& setContent(const std::string&);
 
+		RequestBuilder& addHeader(const std::string& name, const std::string& value);
 		RequestBuilder& setHeaders(const RequestHeaders&);
+
+		RequestBuilder& addQueryString(const std::string& name, const std::string& value);
 		RequestBuilder& setQueryStrings(const RequestQueryStrings&);
 
 		Request getEntity() const;

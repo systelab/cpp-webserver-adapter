@@ -27,7 +27,6 @@ namespace systelab { namespace web_server { namespace test_utility {
 	{
 		m_reply.setContent(content);
 		return *this;
-
 	}
 
 	Reply ReplyBuilder::getEntity() const
