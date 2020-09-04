@@ -1,3 +1,5 @@
+#include <sstream>
+
 
 namespace systelab { namespace web_server {
 
@@ -18,7 +20,7 @@ namespace systelab { namespace web_server {
 					 unsigned int httpVersionMajor,
 					 unsigned int httpVersionMinor,
 					 const std::map<std::string, std::string>& headers,
-1					 const std::string& content)
+					 const std::string& content)
 		:m_method(method)
 		,m_uri(uri)
 		,m_queryStrings(RequestQueryStrings(queryStrings))

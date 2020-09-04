@@ -14,7 +14,6 @@ namespace systelab { namespace test_utility {
 	{
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getMethod());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getURI());
-		COMPARATOR_ASSERT_EQUAL(expected, actual, getURIFull());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getHttpVersionMajor());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getHttpVersionMinor());
 		COMPARATOR_ASSERT_EQUAL(expected, actual, getContent());
