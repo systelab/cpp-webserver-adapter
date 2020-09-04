@@ -20,14 +20,13 @@ namespace systelab { namespace web_server {
 
 		inline std::string getMethod() const;
 		inline std::string getURI() const;
-		inline std::string getURIFull() const;
+		inline std::string getURIWithQueryStrings() const;
 		inline unsigned int getHttpVersionMajor() const;
 		inline unsigned int getHttpVersionMinor() const;
 		inline std::string getContent() const;
 
 		inline void setMethod(const std::string&);
 		inline void setURI(const std::string&);
-		inline void setURIFull(const std::string&);
 		inline void setHttpVersionMajor(unsigned int);
 		inline void setHttpVersionMinor(unsigned int);
 		inline void setContent(const std::string&);
@@ -43,7 +42,6 @@ namespace systelab { namespace web_server {
 	private:
 		std::string m_method;
 		std::string m_uri;
-		std::string m_uriFull;
 		unsigned int m_httpVersionMajor;
 		unsigned int m_httpVersionMinor;
 		RequestHeaders m_headers;

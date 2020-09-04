@@ -13,7 +13,6 @@ namespace systelab { namespace web_server { namespace test_utility {
 
 		RequestBuilder& setMethod(const std::string&);
 		RequestBuilder& setURI(const std::string&);
-		RequestBuilder& setURIFull(const std::string&);
 		RequestBuilder& setHttpVersionMajor(unsigned int);
 		RequestBuilder& setHttpVersionMinor(unsigned int);
 		RequestBuilder& setContent(const std::string&);

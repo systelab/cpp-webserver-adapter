@@ -4,7 +4,6 @@ namespace systelab { namespace web_server {
 	Request::Request()
 		:m_method("")
 		,m_uri("")
-		,m_uriFull("")
 		,m_queryStrings(RequestQueryStrings())
 		,m_httpVersionMajor(1)
 		,m_httpVersionMinor(1)
@@ -19,10 +18,9 @@ namespace systelab { namespace web_server {
 					 unsigned int httpVersionMajor,
 					 unsigned int httpVersionMinor,
 					 const std::map<std::string, std::string>& headers,
-					 const std::string& content)
+1					 const std::string& content)
 		:m_method(method)
 		,m_uri(uri)
-		,m_uriFull(uri)
 		,m_queryStrings(RequestQueryStrings(queryStrings))
 		,m_httpVersionMajor(httpVersionMajor)
 		,m_httpVersionMinor(httpVersionMinor)
@@ -41,9 +39,24 @@ namespace systelab { namespace web_server {
 		return m_uri;
 	}
 
-	std::string Request::getURIFull() const
+	std::string Request::getURIWithQueryStrings() const
 	{
-		return m_uriFull;
+		std::stringstream ss;
+		ss << m_uri;
+
+		auto queryStringsMap = m_queryStrings.getItemsMap();
+		if (queryStringsMap.size() > 0)
+		{
+			bool firstQueryString = true;
+			for (auto queryString : queryStringsMap)
+			{
+				ss << (firstQueryString ? "?" : "&");
+				ss << queryString.first + "=" + queryString.second;
+				firstQueryString = false;
+			}
+		}
+
+		return ss.str();
 	}
 
 	unsigned int Request::getHttpVersionMajor() const
@@ -69,11 +82,6 @@ namespace systelab { namespace web_server {
 	void Request::setURI(const std::string& uri)
 	{
 		m_uri = uri;
-	}
-
-	void Request::setURIFull(const std::string& uriFull)
-	{
-		m_uriFull = uriFull;
 	}
 
 	void Request::setHttpVersionMajor(unsigned int httpVersionMajor)

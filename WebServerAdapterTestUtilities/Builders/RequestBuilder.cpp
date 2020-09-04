@@ -22,12 +22,6 @@ namespace systelab { namespace web_server { namespace test_utility {
 		return *this;
 	}
 
-	RequestBuilder& RequestBuilder::setURIFull(const std::string& uriFull)
-	{
-		m_request.setURIFull(uriFull);
-		return *this;
-	}
-
 	RequestBuilder& RequestBuilder::setHttpVersionMajor(unsigned int httpVersionMajor)
 	{
 		m_request.setHttpVersionMajor(httpVersionMajor);
