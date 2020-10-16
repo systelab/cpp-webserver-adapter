@@ -77,8 +77,8 @@
 ### Bug Fixes
 
 - Splitted Conan packages of this repository in two:
--- WebServerAdapterInterface (header only package)
--- WebServerAdapterTestUtilities
+  - WebServerAdapterInterface (header only package)
+  - WebServerAdapterTestUtilities
 
 
 ## Changes for version 1.0.1 (3 Aug 2019)
