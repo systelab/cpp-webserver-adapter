@@ -38,10 +38,10 @@ function parseParameters
 
 parseParameters "${@}"
 
-echo -e "\nUploading WebServerAdapterInterface/$VERSION@systelab/stable to systelab-bintray...\n\n"
-conan upload "WebServerAdapterInterface/$VERSION@systelab/stable" --all -r systelab-bintray --force
+echo -e "\nUploading WebServerAdapterInterface/$VERSION@systelab/stable to systelab-public...\n\n"
+conan upload "WebServerAdapterInterface/$VERSION@systelab/stable" --all -r systelab-public --force
 checkErrors
 
-echo -e "\nUploading WebServerAdapterTestUtilities/$VERSION@systelab/stable to systelab-bintray...\n\n"
-conan upload "WebServerAdapterTestUtilities/$VERSION@systelab/stable" --all -r systelab-bintray --force
+echo -e "\nUploading WebServerAdapterTestUtilities/$VERSION@systelab/stable to systelab-public...\n\n"
+conan upload "WebServerAdapterTestUtilities/$VERSION@systelab/stable" --all -r systelab-public --force
 checkErrors
