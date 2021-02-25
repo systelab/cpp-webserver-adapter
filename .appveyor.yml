@@ -58,8 +58,8 @@ artifacts:
 deploy_script:
   - ps: >- 
       if($env:appveyor_repo_tag -eq 'True') {
-        conan upload WebServerAdapterInterface/$env:appveyor_build_version@systelab/stable --all -r systelab-bintray --force
-        conan upload WebServerAdapterTestUtilities/$env:appveyor_build_version@systelab/stable --all -r systelab-bintray --force
+        conan upload WebServerAdapterInterface/$env:appveyor_build_version@systelab/stable --all -r systelab-public --force
+        conan upload WebServerAdapterTestUtilities/$env:appveyor_build_version@systelab/stable --all -r systelab-public --force
       } else {
         echo "Not uploading because this is not a tag build"
       }
