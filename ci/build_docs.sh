@@ -220,13 +220,6 @@ function dispatchDocBuildsEvent
 		exit 0
 	fi
 
-	if [[ -z $TEST_PROJECTS ]]
-	then 
-		echo
-		echo "Syntax error: no test projects specified. Use -p."
-		exit 1
-	fi
-
 	TEST_PROJECTS=${TEST_PROJECTS//,/ }
 
 	echo "Dispatch GitHub Action to build documentation..."
