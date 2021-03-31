@@ -181,7 +181,7 @@ function buildTestProjectsJSON
 	do
 		if [[ $FIRST_TEST_PROJECT == 0 ]]
 		then
-			TEST_PROJECTS_JSON+= ", "
+			TEST_PROJECTS_JSON+=", "
 		fi
 		FIRST_TEST_PROJECT=0
 
@@ -218,6 +218,12 @@ function dispatchDocBuildsEvent
 		echo
 		echo "Syntax error: no tag name specified. Use -t."
 		exit 0
+	fi
+
+	if [[ -z $TEST_PROJECTS ]]
+	then 
+		echo "Syntax error: no test projects specified. Use -p."
+		exit 1
 	fi
 
 	TEST_PROJECTS=${TEST_PROJECTS//,/ }
