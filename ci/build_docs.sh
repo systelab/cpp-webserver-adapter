@@ -222,6 +222,7 @@ function dispatchDocBuildsEvent
 
 	if [[ -z $TEST_PROJECTS ]]
 	then 
+		echo
 		echo "Syntax error: no test projects specified. Use -p."
 		exit 1
 	fi
