@@ -5,6 +5,7 @@
 ### Bug Fixes
 
 - Moved deploy of Conan packages to CSW JFrogPlatform
+- Moved VS2017 configurations to GoogleTest 1.10
 
 
 ## Changes for version 1.1.8 (25 Feb 2021)
