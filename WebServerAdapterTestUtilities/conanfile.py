@@ -24,7 +24,7 @@ class WebServerAdapterTestUtilitiesConan(ConanFile):
         else:
             self.requires("gtest/1.10.0")
 
-        self.requires("TestUtilitiesInterface/1.0.5@systelab/stable")
+        self.requires("TestUtilitiesInterface/1.0.6@systelab/stable")
         if ("%s" % self.version) == "None":
             self.requires("WebServerAdapterInterface/%s@systelab/stable" % os.environ['VERSION'])
         else:
