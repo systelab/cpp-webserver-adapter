@@ -21,8 +21,8 @@ class WebServerAdapterTestUtilitiesConan(ConanFile):
             self.requires("gtest/1.7.0@systelab/stable")
         elif self.options.gtest == "1.8.1":
             self.requires("gtest/1.8.1")
-        else:
-            self.requires("gtest/1.10.0")
+        elif self.options.gtest == "1.10.0":
+            self.requires("gtest/1.10.0#0c895f60b461f8fee0da53a84d659131")
 
         self.requires("TestUtilitiesInterface/1.0.6@systelab/stable")
         if ("%s" % self.version) == "None":
