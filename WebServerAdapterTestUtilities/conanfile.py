@@ -14,7 +14,7 @@ class WebServerAdapterTestUtilitiesConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"gtest": ["1.7.0", "1.8.1", "1.10.0"]}
     default_options = "gtest=1.10.0"
-    exports_sources = "*"
+    exports_sources = "*", "!README.md"
 
     def requirements(self):
         if self.options.gtest == "1.7.0":
@@ -23,12 +23,15 @@ class WebServerAdapterTestUtilitiesConan(ConanFile):
             self.requires("gtest/1.8.1")
         elif self.options.gtest == "1.10.0":
             self.requires("gtest/1.10.0#0c895f60b461f8fee0da53a84d659131")
+        else:
+            self.requires(f"gtest/{self.options.gtest}")
 
         self.requires("TestUtilitiesInterface/1.0.8@systelab/stable")
         if ("%s" % self.version) == "None":
-            self.requires("WebServerAdapterInterface/%s@systelab/stable" % os.environ['VERSION'])
+            channel = os.environ['CHANNEL'] if "CHANNEL" in os.environ else "stable"
+            self.requires(f"WebServerAdapterInterface/{os.environ['VERSION']}@systelab/{channel}")
         else:
-            self.requires("WebServerAdapterInterface/%s@systelab/stable" % self.version)
+            self.requires(f"WebServerAdapterInterface/{self.version}@systelab/{self.channel}")
 
     def build(self):
         cmake = CMake(self)
