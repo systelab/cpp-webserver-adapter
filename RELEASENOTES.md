@@ -1,5 +1,12 @@
 # Summary of changes
 
+## Changes for version 1.1.12 (30 Sep 2021)
+
+### Bug Fixes
+
+- Fixed conan packaging for WebServerAdapterInterface to not include test utilities files
+
+
 ## Changes for version 1.1.11 (30 Sep 2021)
 
 ### Bug Fixes
