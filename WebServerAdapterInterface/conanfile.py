@@ -14,8 +14,8 @@ class WebServerAdapterInterfaceConan(ConanFile):
     exports_sources = "*"
 
     def package(self):
-        self.copy("WebServerAdapterInterface/*.h", dst="include/WebServerAdapterInterface")
-        self.copy("WebServerAdapterInterface/*.inl", dst="include/WebServerAdapterInterface")
+        self.copy("*.h", dst="include/WebServerAdapterInterface", excludes="WebServerAdapterTestUtilities/*.*")
+        self.copy("*.inl", dst="include/WebServerAdapterInterface", excludes="WebServerAdapterTestUtilities/*.*")
 
     def package_info(self):
         self.info.header_only()
