@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 namespace systelab { namespace web_server {
 
 	class SecurityConfiguration
@@ -10,9 +12,9 @@ namespace systelab { namespace web_server {
 		inline virtual ~SecurityConfiguration();
 
 		inline bool isHTTPSEnabled() const;
-		inline std::string getServerCertificate() const;
-		inline std::string getServerPrivateKey() const;
-		inline std::string getServerDHParam() const;
+		inline std::function<std::string()> getServerCertificate() const;
+		inline std::function<std::string()> getServerPrivateKey() const;
+		inline std::function<std::string()> getServerDHParam() const;
 
 		inline bool isMutualSSLEnabled() const;
 		inline std::string getClientCertificate() const;
@@ -23,9 +25,9 @@ namespace systelab { namespace web_server {
 		inline bool isTLSv13Enabled() const;
 
 		inline void setHTTPSEnabled(bool);
-		inline void setServerCertificate(const std::string&);
-		inline void setServerPrivateKey(const std::string&);
-		inline void setServerDHParam(const std::string&);
+		inline void setServerCertificate(const std::function<std::string()>&);
+		inline void setServerPrivateKey(const std::function<std::string()>&);
+		inline void setServerDHParam(const std::function<std::string()>&);
 
 		inline void setMutualSSLEnabled(bool);
 		inline void setClientCertificate(const std::string&);
@@ -39,9 +41,9 @@ namespace systelab { namespace web_server {
 
 	private:
 		bool m_httpsEnabled;
-		std::string m_serverCertificate;
-		std::string m_serverPrivateKey;
-		std::string m_serverDHParam;
+		std::function<std::string()> m_serverCertificate;
+		std::function<std::string()> m_serverPrivateKey;
+		std::function<std::string()> m_serverDHParam;
 
 		bool m_mutualSSLEnabled;
 		std::string m_clientCertificate;

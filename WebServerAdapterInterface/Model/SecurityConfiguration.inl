@@ -3,9 +3,9 @@ namespace systelab { namespace web_server {
 
 	SecurityConfiguration::SecurityConfiguration()
 		:m_httpsEnabled(false)
-		,m_serverCertificate("")
-		,m_serverPrivateKey("")
-		,m_serverDHParam("")
+		,m_serverCertificate()
+		,m_serverPrivateKey()
+		,m_serverDHParam()
 		,m_mutualSSLEnabled(false)
 		,m_clientCertificate("")
 		,m_tlsv10Enabled(false)
@@ -36,17 +36,17 @@ namespace systelab { namespace web_server {
 		return m_httpsEnabled;
 	}
 
-	std::string SecurityConfiguration::getServerCertificate() const
+	std::function<std::string()> SecurityConfiguration::getServerCertificate() const
 	{
 		return m_serverCertificate;
 	}
 
-	std::string SecurityConfiguration::getServerPrivateKey() const
+	std::function<std::string()> SecurityConfiguration::getServerPrivateKey() const
 	{
 		return m_serverPrivateKey;
 	}
 
-	std::string SecurityConfiguration::getServerDHParam() const
+	std::function<std::string()> SecurityConfiguration::getServerDHParam() const
 	{
 		return m_serverDHParam;
 	}
@@ -86,17 +86,17 @@ namespace systelab { namespace web_server {
 		m_httpsEnabled = httpsEnabled;
 	}
 
-	void SecurityConfiguration::setServerCertificate(const std::string& serverCertificate)
+	void SecurityConfiguration::setServerCertificate(const std::function<std::string()>& serverCertificate)
 	{
 		m_serverCertificate = serverCertificate;
 	}
 
-	void SecurityConfiguration::setServerPrivateKey(const std::string& serverPrivateKey)
+	void SecurityConfiguration::setServerPrivateKey(const std::function<std::string()>& serverPrivateKey)
 	{
 		m_serverPrivateKey = serverPrivateKey;
 	}
 
-	void SecurityConfiguration::setServerDHParam(const std::string& serverDHParam)
+	void SecurityConfiguration::setServerDHParam(const std::function<std::string()>& serverDHParam)
 	{
 		m_serverDHParam = serverDHParam;
 	}
