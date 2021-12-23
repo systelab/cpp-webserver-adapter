@@ -1,5 +1,15 @@
 # Summary of changes
 
+## Changes for version 2.0.0 (23 Dec 2021)
+
+### Breaking changes
+
+- Defined through functions the following attributes of security configuration (required to prevent from memory dump attacks):
+-- Server certificate
+-- Private key
+-- DH params
+
+
 ## Changes for version 1.1.12 (30 Sep 2021)
 
 ### Bug Fixes
