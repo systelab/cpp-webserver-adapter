@@ -3,9 +3,9 @@ namespace systelab { namespace web_server {
 
 	SecurityConfiguration::SecurityConfiguration()
 		:m_httpsEnabled(false)
-		,m_serverCertificate()
-		,m_serverPrivateKey()
-		,m_serverDHParam()
+		,m_serverCertificate([](){ return std::string(""); })
+		,m_serverPrivateKey([](){ return std::string(""); })
+		,m_serverDHParam([](){ return std::string(""); })
 		,m_mutualSSLEnabled(false)
 		,m_clientCertificate("")
 		,m_tlsv10Enabled(false)
