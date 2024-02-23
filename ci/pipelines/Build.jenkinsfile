@@ -76,7 +76,7 @@ pipeline
 								bat "conan export-pkg WebServerAdapterInterface/ WebServerAdapterInterface/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config} --force"
 
 								def buildFolder = "build/${config}-${arch}"
-								bat "conan install ./WebServerAdapterTestUtilities --install-folder ${buildFolder} --profile=${profile} -s arch=${arch} -s build_type=${config}" -e VERSION=${version} -e CHANNEL=${channel}
+								bat "conan install ./WebServerAdapterTestUtilities --install-folder ${buildFolder} --profile=${profile} -s arch=${arch} -s build_type=${config} -e VERSION=${version} -e CHANNEL=${channel}"
 								bat "conan build ./WebServerAdapterTestUtilities --build-folder ${buildFolder}" 
 								bat "conan export-pkg ./WebServerAdapterTestUtilities WebServerAdapterTestUtilities/${version}@systelab/${channel} --build-folder ${buildFolder} --force"
 								bat "conan test ./test_package/conanfile.py WebServerAdapterTestUtilities/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config}"
