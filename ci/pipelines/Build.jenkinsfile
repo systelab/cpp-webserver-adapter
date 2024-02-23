@@ -1,11 +1,13 @@
 def channel = "testing"
 def version = "0.0.0"
+def profile = "vs2022.conanprofile"
+def archs = ['x86', 'x86_64']
+def configs = ['Debug', 'Release']
 
 
 library identifier: "cpp-jenkins-pipelines@master", retriever: modernSCM(
   [$class: "GitSCMSource",
-   remote: "https://github.com/systelab/cpp-jenkins-pipelines.git",
-   credentialsId: "GitHubCredentials"])
+   remote: "https://github.com/systelab/cpp-jenkins-pipelines.git"])
    
 pipeline
 {
@@ -16,7 +18,15 @@ pipeline
 
 	parameters
 	{
-		booleanParam( name: 'uploadTestingPkg',
+		string(	name: 'version',
+				description: 'Version to build (must match the name of the tag that will be checked out), leave blank for checkout of current branch',
+				defaultValue: '' )
+
+		booleanParam( name: 'stable',
+					  description: 'Show if generated library should be uploaded as stable or testing',
+					  defaultValue: false )
+		
+		booleanParam( name: 'uploadPackage',
 					  description: 'Whether or not to upload testing conan package',
 					  defaultValue: false )
 	}
@@ -35,8 +45,19 @@ pipeline
 			steps
 			{
 				deleteDir()
-				configureConanRemotes()
-				checkoutSourceCode()
+				script 
+				{
+					if (params.version == '')
+					{
+						checkoutSourceCode()
+					}
+					else
+					{
+						checkoutSourceCodeFromTag(version)
+						version = params.version
+					}
+					channel = params.stable ? "stable" : "testing"
+				}
 			}
 		}
 		
@@ -46,23 +67,19 @@ pipeline
 			{
 				script
 				{
-					def configurations = ['NewtonDebug', 'NewtonRelease', 'SnowDebug', 'SnowRelease']
-					for(int i=0; i < configurations.size(); i++)
-					{
-						stage('Build ' + configurations[i])
-						{
-							def props = readProperties file:"ci/pipelines/${configurations[i]}.properties"							
-							props.each { propKey, propValue -> println "${propKey}: ${propValue}" }
-
-							sh "conan export-pkg WebServerAdapterInterface/conanfile.py WebServerAdapterInterface/${version}@systelab/${channel} -s build_type=${props.conanBuildType} -s compiler.toolset=${props.conanCompilerToolset} -s arch=${props.conanArch} --force"
-							sh "mkdir build-${configurations[i]}"
-							dir("build-${configurations[i]}")
+					archs.each
+					{ arch ->
+						configs.each
+						{ config ->
+							stage("Build ${config}|${arch}")
 							{
-								sh "conan install ../WebServerAdapterTestUtilities -s build_type=${props.conanBuildType} -s compiler.toolset=${props.conanCompilerToolset} -s arch=${props.conanArch} -e VERSION=${version} -e CHANNEL=${channel} -o gtest=${props.conanGTestVersion}"
-								sh "cmake .. -G '${props.cmakeVS}' -A ${props.cmakePlatform}"	
-								sh "cmake --build . --config ${props.cmakeConfiguration}"
-								sh "conan export-pkg ../WebServerAdapterTestUtilities/conanfile.py WebServerAdapterTestUtilities/${version}@systelab/${channel} -s build_type=${props.conanBuildType} -s compiler.toolset=${props.conanCompilerToolset} -s arch=${props.conanArch} -o gtest=${props.conanGTestVersion} --force"
-								sh "conan test ../test_package/conanfile.py WebServerAdapterTestUtilities/${version}@systelab/${channel} -s build_type=${props.conanBuildType} -s compiler.toolset=${props.conanCompilerToolset} -s arch=${props.conanArch} -o gtest=${props.conanGTestVersion}"
+								bat "conan export-pkg WebServerAdapterInterface/ WebServerAdapterInterface/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config} --force"
+
+								def buildFolder = "build/${config}-${arch}"
+								bat "conan install ./WebServerAdapterTestUtilities --install-folder ${buildFolder} --profile=${profile} -s arch=${arch} -s build_type=${config}" -e VERSION=${version} -e CHANNEL=${channel}
+								bat "conan build ./WebServerAdapterTestUtilities --build-folder ${buildFolder}" 
+								bat "conan export-pkg ./WebServerAdapterTestUtilities WebServerAdapterTestUtilities/${version}@systelab/${channel} --build-folder ${buildFolder} --force"
+								bat "conan test ./test_package/conanfile.py WebServerAdapterTestUtilities/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config}"
 							}
 						}
 					}
@@ -74,16 +91,14 @@ pipeline
 		{
 			when
 			{
-				expression { return params.uploadTestingPkg }
+				expression { params.uploadTestingPkg }
 			}
 			steps
 			{
 				script
 				{
-					sh "conan remove WebServerAdapterInterface/${version}@systelab/${channel} -r systelab-conan-local --force"
-					sh "conan upload WebServerAdapterInterface/${version}@systelab/${channel} --all -r systelab-conan-local --force"
-					sh "conan remove WebServerAdapterTestUtilities/${version}@systelab/${channel} -r systelab-conan-local --force"
-					sh "conan upload WebServerAdapterTestUtilities/${version}@systelab/${channel} --all -r systelab-conan-local --force"
+					bat "conan upload WebServerAdapterInterface/${version}@systelab/${channel} --all -r systelab-conan-local --force"
+					bat "conan upload WebServerAdapterTestUtilities/${version}@systelab/${channel} --all -r systelab-conan-local --force"
 				}
 			}
 		}
