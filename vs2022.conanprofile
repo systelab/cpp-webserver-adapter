@@ -1,12 +1,9 @@
 [settings]
 os=Windows
-os_build=Windows
-compiler=Visual Studio
-compiler.version=17
-compiler.toolset=v143
-
-TestUtilitiesInterface:compiler.version=16
-TestUtilitiesInterface:compiler.toolset=v142
+compiler=msvc
+compiler.version=194
+compiler.cppstd=20
+compiler.runtime=dynamic
 
 [options]
-openssl:shared=true
+openssl/*:shared=True
