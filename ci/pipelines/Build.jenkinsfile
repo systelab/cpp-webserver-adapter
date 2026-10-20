@@ -1,4 +1,3 @@
-def channel = "testing"
 def version = "0.0.0"
 def profile = "vs2022.conanprofile"
 def archs = ['x86', 'x86_64']
@@ -22,13 +21,14 @@ pipeline
 				description: 'Version to build (must match the name of the tag that will be checked out), leave blank for checkout of current branch',
 				defaultValue: '' )
 
-		booleanParam( name: 'stable',
-					  description: 'Show if generated library should be uploaded as stable or testing',
-					  defaultValue: false )
-		
 		booleanParam( name: 'uploadPackage',
 					  description: 'Whether or not to upload testing conan package',
 					  defaultValue: false )
+	}
+
+	environment
+	{
+		PATH = "${env.USERPROFILE}\\.venvs\\conan2\\Scripts;${env.PATH}"
 	}
 
 	options
@@ -56,7 +56,6 @@ pipeline
 						checkoutSourceCodeFromTag(version)
 						version = params.version
 					}
-					channel = params.stable ? "stable" : "testing"
 				}
 			}
 		}
@@ -73,13 +72,13 @@ pipeline
 						{ config ->
 							stage("Build ${config}|${arch}")
 							{
-								bat "conan export-pkg WebServerAdapterInterface/ WebServerAdapterInterface/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config} --force"
+								bat "conan export-pkg WebServerAdapterInterface/ --version=${version} --profile:all=${profile} -s:a arch=${arch} -s:a build_type=${config}"
 
 								def buildFolder = "build/${config}-${arch}"
-								bat "conan install ./WebServerAdapterTestUtilities --install-folder ${buildFolder} --profile=${profile} -s arch=${arch} -s build_type=${config} -e VERSION=${version} -e CHANNEL=${channel}"
-								bat "conan build ./WebServerAdapterTestUtilities --build-folder ${buildFolder}" 
-								bat "conan export-pkg ./WebServerAdapterTestUtilities WebServerAdapterTestUtilities/${version}@systelab/${channel} --build-folder ${buildFolder} --force"
-								bat "conan test ./test_package/conanfile.py WebServerAdapterTestUtilities/${version}@systelab/${channel} --profile=${profile} -s arch=${arch} -s build_type=${config}"
+								bat "conan install ./WebServerAdapterTestUtilities --version=${version} --output-folder ${buildFolder} --profile:all=${profile} -s:a arch=${arch} -s:a build_type=${config}"
+								bat "conan build ./WebServerAdapterTestUtilities --version=${version} --output-folder ${buildFolder} --profile:all=${profile} -s:a arch=${arch} -s:a build_type=${config}"
+								bat "conan export-pkg ./WebServerAdapterTestUtilities --version=${version} --output-folder ${buildFolder} --profile:all=${profile} -s:a arch=${arch} -s:a build_type=${config}"
+								bat "conan test ./test_package web-server-adapter-test-utilities/${version} --profile:all=${profile} -s:a arch=${arch} -s:a build_type=${config}"
 							}
 						}
 					}
@@ -97,8 +96,8 @@ pipeline
 			{
 				script
 				{
-					bat "conan upload WebServerAdapterInterface/${version}@systelab/${channel} --all -r systelab-conan-local --force"
-					bat "conan upload WebServerAdapterTestUtilities/${version}@systelab/${channel} --all -r systelab-conan-local --force"
+					bat "conan upload web-server-adapter-interface/${version} --remote aid-conan-production-local --confirm --force"
+					bat "conan upload web-server-adapter-test-utilities/${version} --remote aid-conan-production-local --confirm --force"
 				}
 			}
 		}

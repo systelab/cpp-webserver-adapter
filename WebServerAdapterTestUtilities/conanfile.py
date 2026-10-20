@@ -1,39 +1,52 @@
 import os
-from conans import ConanFile, tools, CMake
+from conan import ConanFile
+from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain
+from conan.tools.files import copy
+
+required_conan_version = ">=2.0.0"
 
 
 class WebServerAdapterTestUtilitiesConan(ConanFile):
-    name = "WebServerAdapterTestUtilities"
+    name = "web-server-adapter-test-utilities"
     description = "Test utilities for library-agnostic API for C++ to work with a web server"
     url = "https://github.com/systelab/cpp-webserver-adapter"
     homepage = "https://github.com/systelab/cpp-webserver-adapter"
     author = "CSW <csw@werfen.com>"
     topics = ("conan", "web", "server", "http", "adapter", "wrapper", "test", "gtest")
     license = "MIT"
-    generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
-    exports_sources = "*", "!README.md"
+    exports_sources = "*.h", "*.cpp", "CMakeLists.txt"
 
     def requirements(self):
-        self.requires("gtest/1.14.0#4372c5aed2b4018ed9f9da3e218d18b3")
+        self.requires("gtest/1.14.0")
 
-        self.requires("TestUtilitiesInterface/1.0.8@systelab/stable")
-        if ("%s" % self.version) == "None":
-            channel = os.environ['CHANNEL'] if "CHANNEL" in os.environ else "stable"
-            self.requires(f"WebServerAdapterInterface/{os.environ['VERSION']}@systelab/{channel}")
+        self.requires("test-utilities-interface/1.1.0")
+        if self.version is None:
+            self.requires(f"web-server-adapter-interface/{os.environ['VERSION']}")
         else:
-            self.requires(f"WebServerAdapterInterface/{self.version}@systelab/{self.channel}")
+            self.requires(f"web-server-adapter-interface/{self.version}")
+
+    def generate(self):
+        CMakeDeps(self).generate()
+        CMakeToolchain(self).generate()
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure(source_folder=".")
+        cmake.configure()
         cmake.build()
 
     def package(self):
-        self.copy("*.h", dst="include/WebServerAdapterTestUtilities", keep_path=True)
-        self.copy("*WebServerAdapterTestUtilities.lib", dst="lib", keep_path=False)
-        self.copy("*WebServerAdapterTestUtilities.pdb", dst="lib", keep_path=False)
-        self.copy("*WebServerAdapterTestUtilities.a", dst="lib", keep_path=False)
+        copy(self, "*.h", src=self.source_folder, dst=os.path.join(self.package_folder, "include", "WebServerAdapterTestUtilities"), keep_path=True)
+        copy(self, "*WebServerAdapterTestUtilities.lib", src=self.build_folder, dst=os.path.join(self.package_folder, "lib"), keep_path=False)
+        copy(self, "*WebServerAdapterTestUtilities.pdb", src=self.build_folder, dst=os.path.join(self.package_folder, "lib"), keep_path=False)
+        copy(self, "*WebServerAdapterTestUtilities.a", src=self.build_folder, dst=os.path.join(self.package_folder, "lib"), keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = tools.collect_libs(self)
+        self.cpp_info.set_property("cmake_file_name", "WebServerAdapterTestUtilities")
+        self.cpp_info.set_property("cmake_target_name", "WebServerAdapterTestUtilities::WebServerAdapterTestUtilities")
+        self.cpp_info.libs = ["WebServerAdapterTestUtilities"]
+        self.cpp_info.requires = [
+            "gtest::gtest",
+            "test-utilities-interface::test-utilities-interface",
+            "web-server-adapter-interface::web-server-adapter-interface",
+        ]
