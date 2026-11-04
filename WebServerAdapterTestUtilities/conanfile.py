@@ -21,7 +21,7 @@ class WebServerAdapterTestUtilitiesConan(ConanFile):
         self.requires("gtest/1.14.0")
 
         self.requires("test-utilities-interface/1.1.0")
-        self.requires("web-server-adapter-interface/%s" % self.version)
+        self.requires("web-server-adapter-interface/%s" % self.version, transitive_headers=True)
 
     def generate(self):
         CMakeDeps(self).generate()

@@ -72,13 +72,8 @@ pipeline
 						{ config ->
 							stage("Build ${config}|${arch}")
 							{
-								bat "conan export-pkg WebServerAdapterInterface/ --version=${version} --profile:all=${profile} -s:a arch=${arch} -s:a build_type=${config}"
-
-								def buildFolder = "build/${config}-${arch}"
-								bat "conan install ./WebServerAdapterTestUtilities --version=${version} --output-folder ${buildFolder} --profile:all=${profile} -s:a arch=${arch} -s:a build_type=${config}"
-								bat "conan build ./WebServerAdapterTestUtilities --version=${version} --output-folder ${buildFolder} --profile:all=${profile} -s:a arch=${arch} -s:a build_type=${config}"
-								bat "conan export-pkg ./WebServerAdapterTestUtilities --version=${version} --output-folder ${buildFolder} --profile:all=${profile} -s:a arch=${arch} -s:a build_type=${config}"
-								bat "conan test ./test_package web-server-adapter-test-utilities/${version} --profile:all=${profile} -s:a arch=${arch} -s:a build_type=${config}"
+								bat "conan create WebServerAdapterInterface/ --version=${version} --profile:all=${profile} -s:a arch=${arch} -s:a build_type=${config}"
+								bat "conan create WebServerAdapterTestUtilities/ --version=${version} --test-folder=../test_package --profile:all=${profile} -s:a arch=${arch} -s:a build_type=${config}"
 							}
 						}
 					}

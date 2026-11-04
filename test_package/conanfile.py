@@ -8,8 +8,6 @@ class WebServerAdapterTestUtilitiesTestConan(ConanFile):
 
     def requirements(self):
         self.requires(self.tested_reference_str)
-        version = self.tested_reference_str.split("/")[1].split("@")[0]
-        self.requires(f"web-server-adapter-interface/{version}")
 
     def layout(self):
         cmake_layout(self)
