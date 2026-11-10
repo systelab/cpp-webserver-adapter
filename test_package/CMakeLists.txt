@@ -12,11 +12,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Find external dependencies
 find_package(WebServerAdapterTestUtilities)
+find_package(WebServerAdapterInterface CONFIG REQUIRED)
 
 # Configure test package project
 set(WEB_SERVER_ADAPTER_PACKAGE_TEST_PROJECT WebServerAdapterPackageTest)
 add_executable(${WEB_SERVER_ADAPTER_PACKAGE_TEST_PROJECT} WebServerAdapterExample.cpp)
-target_link_libraries(${WEB_SERVER_ADAPTER_PACKAGE_TEST_PROJECT} WebServerAdapterTestUtilities::WebServerAdapterTestUtilities)
+target_link_libraries(${WEB_SERVER_ADAPTER_PACKAGE_TEST_PROJECT}
+    WebServerAdapterTestUtilities::WebServerAdapterTestUtilities
+    WebServerAdapterInterface::WebServerAdapterInterface)
 
 # Register tests
 enable_testing()

@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.2)
+project(WebServerAdapterTestUtilities LANGUAGES CXX)
 
 # Find external dependencides
-find_package(TestUtilitiesInterface)
+find_package(test-utilities-interface CONFIG REQUIRED)
 find_package(WebServerAdapterInterface)
 
 set(GTEST_PACKAGE_NAME gtest)
@@ -20,7 +21,7 @@ set(WEB_SERVER_ADAPTER_TEST_UTILITIES_PROJECT WebServerAdapterTestUtilities)
 file(GLOB_RECURSE WEB_SERVER_ADAPTER_TEST_UTILITIES_PROJECT_SRC "*.cpp")
 file(GLOB_RECURSE WEB_SERVER_ADAPTER_TEST_UTILITIES_PROJECT_HDR "*.h")
 add_library(${WEB_SERVER_ADAPTER_TEST_UTILITIES_PROJECT} STATIC ${WEB_SERVER_ADAPTER_TEST_UTILITIES_PROJECT_SRC} ${WEB_SERVER_ADAPTER_TEST_UTILITIES_PROJECT_HDR})
-target_link_libraries(${WEB_SERVER_ADAPTER_TEST_UTILITIES_PROJECT} ${GTEST_PACKAGE_NAME}::${GTEST_PACKAGE_NAME} TestUtilitiesInterface::TestUtilitiesInterface WebServerAdapterInterface::WebServerAdapterInterface)
+target_link_libraries(${WEB_SERVER_ADAPTER_TEST_UTILITIES_PROJECT} ${GTEST_PACKAGE_NAME}::${GTEST_PACKAGE_NAME} test-utilities-interface::test-utilities-interface WebServerAdapterInterface::WebServerAdapterInterface)
 
 # Configure source groups
 foreach(FILE ${WEB_SERVER_ADAPTER_TEST_UTILITIES_PROJECT_SRC} ${WEB_SERVER_ADAPTER_TEST_UTILITIES_PROJECT_HDR})
